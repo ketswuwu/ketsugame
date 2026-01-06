@@ -45,7 +45,7 @@ var is_attacking: bool = false
 var combo_step: int = 0
 var max_combo: int = 3
 var combo_window: float = 0.8  # seconds to continue combo
-var lunge_force := [150, 150, 300]  # Attack 1, 2, 3
+var lunge_force := [150, 150, 700]  # Attack 1, 2, 3
 # attack 1 → 40 px
 # attack 2 → 60 px
 # attack 3 → 120 px (big lunge)
@@ -145,7 +145,7 @@ func start_attack():
 	attack_hitbox.set_deferred("monitorable", true)
 
 	# Duration of the attack animation
-	await get_tree().create_timer(attack_duration).timeout
+	await animated_sprite_2d.animation_finished
 
 	# ---- END ATTACK ----
 	is_attacking = false

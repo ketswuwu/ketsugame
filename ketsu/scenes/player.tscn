@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://bq2k8gyr10mi8"]
+[gd_scene load_steps=78 format=3 uid="uid://bq2k8gyr10mi8"]
 
 [ext_resource type="Script" uid="uid://dcslm0qvnakcw" path="res://scenes/player_movement.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://bu3jee87vca41" path="res://sprites/default/test/1attack_down1.png" id="2_apa73"]
@@ -52,7 +52,10 @@
 [ext_resource type="Texture2D" uid="uid://0gy5em73ytvo" path="res://sprites/default/test/2attack_up4.png" id="34_ry8ed"]
 [ext_resource type="Texture2D" uid="uid://crbumpqb5jkxv" path="res://sprites/default/test/3attack_up1.png" id="35_au8ao"]
 [ext_resource type="Texture2D" uid="uid://bxs51sngjiux4" path="res://sprites/default/test/3attack_up2.png" id="36_w5j5w"]
+[ext_resource type="Texture2D" uid="uid://bql2pshoq4dqq" path="res://sprites/default/attackdown.png" id="37_8txt3"]
 [ext_resource type="Texture2D" uid="uid://k0c4oj3b2wji" path="res://sprites/default/test/idle_down1.png" id="37_51ujp"]
+[ext_resource type="Texture2D" uid="uid://d36bwwsr1mn7b" path="res://sprites/default/attackside.png" id="38_2w11d"]
+[ext_resource type="Texture2D" uid="uid://dasssapxm8s0g" path="res://sprites/default/attackup.png" id="39_770dr"]
 [ext_resource type="Texture2D" uid="uid://certoway0ey65" path="res://sprites/default/test/up_idle1.png" id="39_tk41t"]
 [ext_resource type="Texture2D" uid="uid://b71e6hfxcond4" path="res://sprites/default/test/idle_down2.png" id="41_fuw3a"]
 [ext_resource type="Texture2D" uid="uid://djy32na44kub8" path="res://sprites/default/test/idle_down3.png" id="42_8txt3"]
@@ -235,6 +238,30 @@ animations = [{
 "loop": false,
 "name": &"attack_up_3",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("37_8txt3")
+}],
+"loop": false,
+"name": &"bite_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("38_2w11d")
+}],
+"loop": false,
+"name": &"bite_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("39_770dr")
+}],
+"loop": false,
+"name": &"bite_up",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -486,6 +513,9 @@ size = Vector2(31.5, 72)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ur7pv"]
 size = Vector2(45.5, 83)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_51ujp"]
+size = Vector2(68, 101)
+
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 37
@@ -496,7 +526,7 @@ unique_name_in_owner = true
 position = Vector2(1, -51)
 scale = Vector2(0.296661, 0.30624)
 sprite_frames = SubResource("SpriteFrames_smehm")
-animation = &"attack_side_2"
+animation = &"bite_side"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../sprite")
@@ -547,6 +577,14 @@ collision_mask = 16
 position = Vector2(-0.75, -0.5)
 shape = SubResource("RectangleShape2D_ur7pv")
 
+[node name="BiteHitbox" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BiteHitbox"]
+position = Vector2(0, 8.5)
+shape = SubResource("RectangleShape2D_51ujp")
+debug_color = Color(0.6117647, 0.44705883, 0, 0.7607843)
+
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="AttackComboTimer" to="." method="_on_attack_combo_timer_timeout"]
 [connection signal="timeout" from="AttackLungeTimer" to="." method="_on_attack_lunge_timer_timeout"]
@@ -556,3 +594,4 @@ shape = SubResource("RectangleShape2D_ur7pv")
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
+[connection signal="area_entered" from="BiteHitbox" to="." method="_on_bite_hitbox_area_entered"]

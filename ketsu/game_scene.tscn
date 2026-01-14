@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://43q55xbt378f"]
+[gd_scene load_steps=33 format=3 uid="uid://43q55xbt378f"]
 
 [ext_resource type="Texture2D" uid="uid://bctb5n3b4xkig" path="res://tiles/map/fil,er.png" id="1_jv0we"]
 [ext_resource type="PackedScene" uid="uid://bq2k8gyr10mi8" path="res://scenes/player.tscn" id="1_mlf6e"]
+[ext_resource type="Script" uid="uid://dxqioprcag6hf" path="res://game_scene.gd" id="1_nuflt"]
 [ext_resource type="PackedScene" uid="uid://do6colkambt84" path="res://scenes/hallway2.tscn" id="1_opqoc"]
 [ext_resource type="PackedScene" uid="uid://c3mbxdiax41nw" path="res://scenes/room_1.tscn" id="1_po0ka"]
 [ext_resource type="PackedScene" uid="uid://bbvjla7ka43os" path="res://scenes/room2.tscn" id="2_6e45b"]
@@ -24,7 +25,32 @@
 [ext_resource type="PackedScene" uid="uid://wlxig4naodtp" path="res://scenes/transithall.tscn" id="16_nuflt"]
 [ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="20_1wc4g"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv0we"]
+size = Vector2(83.5, 79.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
+size = Vector2(116.75, 137.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_if5p2"]
+size = Vector2(125, 113.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f54l4"]
+size = Vector2(134, 133)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jv0we"]
+bg_color = Color(0.10544015, 0.02207498, 0.03690363, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nuflt"]
+bg_color = Color(0.94791335, 0, 0.20873922, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_if5p2"]
+bg_color = Color(0.084330924, 0, 0.005522677, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f54l4"]
+bg_color = Color(0.82121944, 0.20166239, 0.27884564, 1)
+
 [node name="game_scene" type="Node2D"]
+script = ExtResource("1_nuflt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2189.2502, -399.75)
@@ -49,6 +75,11 @@ texture = ExtResource("1_jv0we")
 [node name="Sprite2D5" type="Sprite2D" parent="."]
 position = Vector2(969.62506, 807.50006)
 scale = Vector2(0.84076804, 0.35208333)
+texture = ExtResource("1_jv0we")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D5"]
+position = Vector2(-1910.5215, -5203.314)
+scale = Vector2(0.5955845, 1.1775149)
 texture = ExtResource("1_jv0we")
 
 [node name="Sprite2D6" type="Sprite2D" parent="."]
@@ -153,26 +184,89 @@ position = Vector2(20, 353)
 motion_mode = 1
 move_speed = 400.0
 
-[node name="Camera2D" type="Camera2D" parent="player"]
+[node name="Camera2D" type="Camera2D" parent="player" node_paths=PackedStringArray("target")]
 position = Vector2(-3, -42)
 rotation = 3.14159
 scale = Vector2(0.45, nan)
 skew = nan
 offset = Vector2(0, 1)
-zoom = Vector2(0.7, 0.7)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("3_v1wow")
+target = NodePath("..")
 
 [node name="Actionable" parent="." instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Actionable"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable/CollisionShape2D2"]
+position = Vector2(846, 243)
+shape = SubResource("RectangleShape2D_jv0we")
 
 [node name="Playermenu" parent="." instance=ExtResource("7_6e45b")]
 
 [node name="enemy" parent="." instance=ExtResource("20_1wc4g")]
-position = Vector2(-342, -46)
+position = Vector2(338, -1059)
+
+[node name="barrel" type="StaticBody2D" parent="."]
+position = Vector2(-831, 126)
+
+[node name="Actionable" parent="barrel" instance=ExtResource("4_kdryc")]
+dialogue_resource = ExtResource("5_6e45b")
+dialogue_start = "barrel"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="barrel/Actionable"]
+position = Vector2(1308.375, -451.75)
+shape = SubResource("RectangleShape2D_nuflt")
+
+[node name="Actionable" parent="barrel/Actionable" instance=ExtResource("4_kdryc")]
+
+[node name="Actionable2" parent="." instance=ExtResource("4_kdryc")]
+position = Vector2(-831, 126)
+dialogue_resource = ExtResource("5_6e45b")
+dialogue_start = "dash_tutorial"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable2"]
+position = Vector2(851.5, -471.75)
+shape = SubResource("RectangleShape2D_if5p2")
+
+[node name="Actionable3" parent="." instance=ExtResource("4_kdryc")]
+position = Vector2(-831, 126)
+dialogue_resource = ExtResource("5_6e45b")
+dialogue_start = "cage"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable3"]
+position = Vector2(384, -438.5)
+shape = SubResource("RectangleShape2D_f54l4")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BloodBar" type="ProgressBar" parent="UI"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 36.0
+offset_bottom = -260.0
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_jv0we")
+theme_override_styles/fill = SubResource("StyleBoxFlat_nuflt")
+fill_mode = 3
+
+[node name="HPBar" type="ProgressBar" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 44.0
+offset_top = -40.0
+offset_right = 971.0
+offset_bottom = -13.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_if5p2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
+
+[node name="enemy2" parent="." instance=ExtResource("20_1wc4g")]
+position = Vector2(-355, -1006)
+
+[node name="enemy3" parent="." instance=ExtResource("20_1wc4g")]
+position = Vector2(-418, -139)

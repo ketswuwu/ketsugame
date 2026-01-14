@@ -655,7 +655,6 @@ func create_response(data: Dictionary, extra_game_states: Array) -> DialogueResp
 		translation_key = data.get(&"translation_key", data.text),
 	})
 
-
 # Get the current game states
 func _get_game_states(extra_game_states: Array) -> Array:
 	if not _has_loaded_autoloads:

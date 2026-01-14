@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+
 @export var move_speed: float = 500
 @export var attack_duration: float = 0.20
 @export var invulnerability_time: float = 0.6
@@ -9,12 +10,22 @@ extends CharacterBody2D
 @export var dash_speed: float = 1200
 @export var dash_duration: float = 0.15
 @export var dash_cooldown: float = 0.5
+@export var max_blood: int = 100
+@export var blood_gain_per_hit: int = 8
+
+var current_blood: int = 0
+
+var dash_cost := 4
 
 @onready var main_camera: Camera2D = get_tree().get_current_scene().get_node("Camera2D")
+
+
 
 var is_dashing: bool = false
 var can_dash: bool = true
 var is_invincible: bool = false
+var is_biting := false
+var bite_target: Node = null
 
 var knockback_vector: Vector2 = Vector2.ZERO
 var is_knocked_back: bool = false
@@ -34,6 +45,13 @@ var character_direction: Vector2
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var interact_box: Area2D = $Direction/ActionableFinder
+@onready var bite_hitbox: Area2D = $BiteHitbox
+@onready var blood_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/BloodBar")
+@onready var hp_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/HPBar")
+@export var bite_cost := 20
+@export var bite_damage := 15
+@export var bite_heal := 2
+@export var bite_duration := 0.35
 
 var normal_collision_layer
 var normal_collision_mask
@@ -41,6 +59,7 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 var is_lunging: bool = false
 var can_deal_damage: bool = false
 var animation_direction: String = "down"
+
 var is_attacking: bool = false
 var combo_step: int = 0
 var max_combo: int = 3
@@ -57,13 +76,16 @@ var attack_offset := {
 
 func _ready():
 	# Initialize from PlayerData
+	bite_hitbox.monitoring = false
 	normal_collision_layer = collision_layer
 	normal_collision_mask = collision_mask
 	print(collision_mask)
 	current_health = Playerdata.stats["health"]
 	Playerdata.lock_ability("Double Jump")
 	Playerdata.unlock_ability("Dash")
-	
+	current_blood = 0
+	update_blood_ui()
+	update_hp_ui()
 func _physics_process(delta):
 	if is_attacking:
 		# No player control, but keep lunge velocity active
@@ -119,7 +141,11 @@ func _physics_process(delta):
 
 	# Dash input
 	if Input.is_action_just_pressed("dash") and can_dash and not is_attacking:
-		start_dash()
+		if spend_blood(dash_cost):
+			start_dash()
+	if Input.is_action_just_pressed("bite") and not is_attacking and not is_dashing:
+		if spend_blood(bite_cost):
+			start_bite()
 func start_attack():
 	if attack_combo_timer.is_stopped():
 		combo_step = 1
@@ -192,10 +218,13 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 		var damage = Playerdata.stats["attack"]
 		area.take_damage(damage, global_position)
 
+		# 🩸 Gain blood on hit
+		add_blood(blood_gain_per_hit)
+	
 	if area.is_in_group("breakable") and area.has_method("take_damage"):
 		var damage = Playerdata.stats["attack"]
 		area.take_damage(damage)
-		
+
 func apply_lunge():
 	var force = lunge_force[combo_step - 1]
 	velocity = last_move_dir * force
@@ -219,6 +248,69 @@ func start_dash():
 	velocity = last_move_dir.normalized() * dash_speed
 
 	dash_timer.start(dash_duration)
+func start_bite():
+	is_biting = true
+	is_attacking = true
+	can_deal_damage = false
+	velocity = Vector2.ZERO
+
+	animated_sprite_2d.play("bite_" + animation_direction)
+
+	update_bite_hitbox_direction()
+	bite_hitbox.monitoring = true
+	
+	await animated_sprite_2d.animation_finished
+
+	end_bite()
+func update_bite_hitbox_direction():
+	match animation_direction:
+		"up":
+			bite_hitbox.position = Vector2(0, -80)
+			bite_hitbox.rotation_degrees = 0
+		"down":
+			bite_hitbox.position = Vector2(0, -5)
+			bite_hitbox.rotation_degrees = 0
+		"side":
+			var x_offset = -50 if %sprite.flip_h else 50
+			bite_hitbox.position = Vector2(x_offset, -45)
+			bite_hitbox.rotation_degrees = 90
+func _on_bite_hitbox_area_entered(area: Area2D):
+	if not is_biting:
+		return
+
+	if area.is_in_group("enemy") and area.has_method("take_damage"):
+		bite_target = area
+
+		# 🛑 Strong hitstop
+		Hitstop.apply(0.01, 0.03)
+
+		# 🦷 Damage enemy
+		area.take_damage(bite_damage, global_position)
+
+		# ❤️ Heal player
+		heal(bite_heal)
+		print("current health: ", current_health)
+		# Optional camera punch
+		if main_camera:
+			main_camera.apply_shake(12.0, 0.2)
+
+		# Lock enemy briefly (optional but feels GREAT)
+		if area.has_method("set_hurt_lock"):
+			area.set_hurt_lock(bite_duration)
+func end_bite():
+	is_biting = false
+	is_attacking = false
+	bite_hitbox.monitoring = false
+	bite_target = null
+func heal(amount: int):
+	current_health = clamp(
+		current_health + amount,
+		0,
+		Playerdata.stats["max_health"]
+	)
+	Playerdata.stats["health"] = current_health
+	update_hp_ui()
+	print("Healed:", amount)
 	
 func set_invincible(value: bool):
 	is_invincible = value
@@ -240,39 +332,77 @@ func _on_dash_timer_timeout() -> void:
 
 func _on_dash_cooldown_timer_timeout() -> void:
 	can_dash = true
+	
+func add_blood(amount: int):
+	current_blood = clamp(current_blood + amount, 0, max_blood)
+	update_blood_ui()
+	print("Blood:", current_blood)
 
+func spend_blood(cost: int) -> bool:
+	if current_blood < cost:
+		print("Not enough blood!")
+		return false
 
+	current_blood -= cost
+	update_blood_ui()
+	return true
+
+func update_blood_ui():
+	if blood_bar:
+		blood_bar.max_value = max_blood
+		blood_bar.value = current_blood
+func update_hp_ui():
+	if hp_bar:
+		hp_bar.max_value = Playerdata.stats["max_health"]
+		hp_bar.value = current_health
 func take_damage(amount: int, source_position: Vector2 = global_position):
 	if is_invincible or is_hurt:
 		return
-
+		# 🛑 CANCEL ATTACK IF HIT
+	if is_attacking:
+		is_attacking = false
+		can_deal_damage = false
+		attack_hitbox.monitoring = false
+		is_lunging = false
 	current_health -= amount
 	Playerdata.stats["health"] = current_health  # sync back to PlayerData
 
+	Hitstop.apply(0.008, 0.1)
+	if is_instance_valid(main_camera) and main_camera.has_method("apply_shake"):
+		main_camera.apply_shake(8.0, 0.15)
+	
 	is_hurt = true
 	print("[Player] Took", amount, "damage. Health now:", current_health)
-
+	var cam := get_node_or_null("Camera2D")
+	if cam and cam.has_method("apply_shake"):
+		cam.apply_shake(18.0, 0.25)
 	var direction = (global_position - source_position).normalized()
 	knockback_vector = direction * knockback_force
 	is_knocked_back = true
 	start_knockback()
 
 	animated_sprite_2d.play("hurt_" + animation_direction)
+	apply_hitstop(0.08, 0.03)
 
+	update_hp_ui()
 	if current_health <= 0:
 		die()
 		return
-
+	
 	start_flicker_effect()
 
-	if is_instance_valid(main_camera) and main_camera.has_method("apply_shake"):
-		Engine.time_scale = 0.1
-		await get_tree().create_timer(0.018, false).timeout
-		Engine.time_scale = 1.0
-		main_camera.apply_shake(6.0, 0.25)
-
 	hurt_timer.start(invulnerability_time)
+	
+func apply_hitstop(duration := 0.06, strength := 0.05):
+	if Engine.time_scale != 1.0:
+		return   # prevent stacking hitstops
 
+	Engine.time_scale = strength
+
+	await get_tree().create_timer(duration, true, false, true).timeout
+
+	Engine.time_scale = 1.0
+	
 func _on_attack_lunge_timer_timeout():
 	is_lunging = false
 func start_knockback():
@@ -331,7 +461,7 @@ func die():
 
 	start_flicker_effect()
 
-	# Camera shake (if you have one)
+	# Camera shake 
 	if is_instance_valid(main_camera) and main_camera.has_method("apply_shake"):
 		Engine.time_scale = 0.1
 		await get_tree().create_timer(0.018).timeout
@@ -343,7 +473,7 @@ func die():
 	if animated_sprite_2d.sprite_frames.has_animation(death_anim):
 		animated_sprite_2d.play(death_anim)
 
-		# 🔒 If animation loops, force reload after a delay
+
 		var anim_len = animated_sprite_2d.sprite_frames.get_frame_count(death_anim) / animated_sprite_2d.sprite_frames.get_animation_speed(death_anim)
 		var timeout = max(anim_len, 0.3)
 

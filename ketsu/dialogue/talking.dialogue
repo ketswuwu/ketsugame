@@ -1,4 +1,34 @@
 ~ start
-The Knight: Hey guys it's me the knight.
-The Knight: You should kill yourself now.
+Ketsu: Damn
+=> END
+
+~ init
+set State.barrel_status = "unread"
+set State.cage_status = "unread"
+=> END
+
+~ barrel
+if State.cage_status == "read":
+	Ketsu: It is NOT a cage.
+	Ketsu: Cool.
+else:
+	Ketsu: It's a barrel.
+	Ketsu: Real riveting stuff.
+	set State.barrel_status = "read"
+=> END
+
+~ dash_tutorial
+Ketsu: I could probably squeeze through here if i DASHED.
+Ketsu: Maybe pressing C would be a good idea.
+=> END
+
+~ cage
+if State.barrel_status == "read":
+	Ketsu: It is NOT a barrel.
+	Ketsu: Cool.
+else:
+	Ketsu: It's a cage.
+	Ketsu: Really interesting dude.
+	set State.cage_status = "read"
+	
 => END

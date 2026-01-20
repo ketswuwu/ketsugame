@@ -21,7 +21,7 @@ size = Vector2(374, 271)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lkq01"]
 size = Vector2(374, 256)
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" groups=["breakable"]]
 script = ExtResource("1_vxj4n")
 
 [node name="Area2D" type="Area2D" parent="." groups=["breakable"]]

@@ -80,13 +80,13 @@ func _start_alert():
 	# Player might have left during alert
 	if target:
 		is_chasing = true
+		Combatmusicmanager.enemy_started_combat()
 
 	is_alerted = false
 func _on_detection_exited(body):
 	if body == target:
-		print("[Enemy] Player lost.")
 		target = null
-		is_chasing = false
+		stop_combat()
 func take_damage(amount: int, source_position: Vector2 = global_position):
 	if is_hurt:
 		return
@@ -118,17 +118,21 @@ func take_damage(amount: int, source_position: Vector2 = global_position):
 		die()
 func die():
 	print("[Enemy] Died!")
+
+	if is_chasing:
+		Combatmusicmanager.enemy_stopped_combat()
+
+	is_chasing = false
 	is_hurt = false
-		
-	if has_node("CollisionShape2D"):
+
+	if has_node("Area2D/CollisionShape2D"):
 		$Area2D/CollisionShape2D.disabled = true
 
-		# Hide sprite
 	sprite.visible = false
 
-		# Optional: spawn particles, sound, or loot here
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
+
 
 
 	# 🔻 When player enters the enemy’s hit area
@@ -167,7 +171,11 @@ func _on_DamageTimer_timeout():
 	can_damage = true
 	if player_in_range:
 		_deal_damage()
-
+func stop_combat():
+	if is_chasing:
+		is_chasing = false
+		Combatmusicmanager.enemy_stopped_combat()
+		
 func _physics_process(delta):
 	if is_on_wall():
 		var collision = get_last_slide_collision()

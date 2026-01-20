@@ -269,4 +269,4 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
 position = Vector2(-355, -1006)
 
 [node name="enemy3" parent="." instance=ExtResource("20_1wc4g")]
-position = Vector2(-418, -139)
+position = Vector2(-311, -109)

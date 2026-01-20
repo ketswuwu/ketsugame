@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+@onready var bullet = preload("res://scenes/bullet.tscn")
 @export var move_speed: float = 500
 @export var attack_duration: float = 0.20
 @export var invulnerability_time: float = 0.6
@@ -12,8 +12,10 @@ extends CharacterBody2D
 @export var dash_cooldown: float = 0.5
 @export var max_blood: int = 100
 @export var blood_gain_per_hit: int = 8
-
+@export var bite_lunge_force := 1000
+@export var bite_lunge_duration := 0.12
 var current_blood: int = 0
+
 
 var dash_cost := 4
 
@@ -26,6 +28,7 @@ var can_dash: bool = true
 var is_invincible: bool = false
 var is_biting := false
 var bite_target: Node = null
+var can_shoot: bool = true
 
 var knockback_vector: Vector2 = Vector2.ZERO
 var is_knocked_back: bool = false
@@ -46,6 +49,7 @@ var character_direction: Vector2
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var interact_box: Area2D = $Direction/ActionableFinder
 @onready var bite_hitbox: Area2D = $BiteHitbox
+@onready var bite_lunge_timer: Timer = $BiteLungeTimer
 @onready var blood_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/BloodBar")
 @onready var hp_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/HPBar")
 @export var bite_cost := 20
@@ -146,6 +150,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("bite") and not is_attacking and not is_dashing:
 		if spend_blood(bite_cost):
 			start_bite()
+
 func start_attack():
 	if attack_combo_timer.is_stopped():
 		combo_step = 1
@@ -252,16 +257,25 @@ func start_bite():
 	is_biting = true
 	is_attacking = true
 	can_deal_damage = false
-	velocity = Vector2.ZERO
+
+	# 👉 APPLY FORWARD LUNGE
+	if last_move_dir != Vector2.ZERO:
+		velocity = last_move_dir.normalized() * bite_lunge_force
+		is_lunging = true
+		bite_lunge_timer.start(bite_lunge_duration)
 
 	animated_sprite_2d.play("bite_" + animation_direction)
 
 	update_bite_hitbox_direction()
 	bite_hitbox.monitoring = true
-	
-	await animated_sprite_2d.animation_finished
 
-	end_bite()
+	await animated_sprite_2d.animation_finished
+	end_bite()	
+	
+func _on_bite_lunge_timer_timeout():
+	is_lunging = false
+	velocity = Vector2.ZERO
+	
 func update_bite_hitbox_direction():
 	match animation_direction:
 		"up":

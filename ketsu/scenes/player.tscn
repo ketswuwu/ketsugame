@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://bq2k8gyr10mi8"]
+[gd_scene load_steps=84 format=3 uid="uid://bq2k8gyr10mi8"]
 
 [ext_resource type="Script" uid="uid://dcslm0qvnakcw" path="res://scenes/player_movement.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://bu3jee87vca41" path="res://sprites/default/test/1attack_down1.png" id="2_apa73"]
@@ -52,14 +52,20 @@
 [ext_resource type="Texture2D" uid="uid://0gy5em73ytvo" path="res://sprites/default/test/2attack_up4.png" id="34_ry8ed"]
 [ext_resource type="Texture2D" uid="uid://crbumpqb5jkxv" path="res://sprites/default/test/3attack_up1.png" id="35_au8ao"]
 [ext_resource type="Texture2D" uid="uid://bxs51sngjiux4" path="res://sprites/default/test/3attack_up2.png" id="36_w5j5w"]
-[ext_resource type="Texture2D" uid="uid://bql2pshoq4dqq" path="res://sprites/default/attackdown.png" id="37_8txt3"]
 [ext_resource type="Texture2D" uid="uid://k0c4oj3b2wji" path="res://sprites/default/test/idle_down1.png" id="37_51ujp"]
 [ext_resource type="Texture2D" uid="uid://d36bwwsr1mn7b" path="res://sprites/default/attackside.png" id="38_2w11d"]
+[ext_resource type="Texture2D" uid="uid://dsfaecnhjp5hw" path="res://sprites/default/test/bite_down2.png" id="38_qsb7e"]
 [ext_resource type="Texture2D" uid="uid://dasssapxm8s0g" path="res://sprites/default/attackup.png" id="39_770dr"]
+[ext_resource type="Texture2D" uid="uid://33kgu61gvpqm" path="res://sprites/default/test/bite_down3.png" id="39_qjsmb"]
 [ext_resource type="Texture2D" uid="uid://certoway0ey65" path="res://sprites/default/test/up_idle1.png" id="39_tk41t"]
+[ext_resource type="Texture2D" uid="uid://b0gra6uh5d1ac" path="res://sprites/default/test/bite_down1.png" id="40_2w11d"]
+[ext_resource type="Texture2D" uid="uid://d3txsckwyof4i" path="res://sprites/default/test/bite_down4.png" id="40_mwp2n"]
+[ext_resource type="Texture2D" uid="uid://b3kt8dxqy6td8" path="res://sprites/default/test/bite_down5.png" id="41_0yhus"]
 [ext_resource type="Texture2D" uid="uid://b71e6hfxcond4" path="res://sprites/default/test/idle_down2.png" id="41_fuw3a"]
 [ext_resource type="Texture2D" uid="uid://djy32na44kub8" path="res://sprites/default/test/idle_down3.png" id="42_8txt3"]
+[ext_resource type="Texture2D" uid="uid://bf63p3cdebljr" path="res://sprites/default/test/bite_down6.png" id="42_jlll7"]
 [ext_resource type="Texture2D" uid="uid://jq3fis4foduy" path="res://sprites/default/test/idle_down4.png" id="43_2w11d"]
+[ext_resource type="Texture2D" uid="uid://cmh6lb1ojbepo" path="res://sprites/default/test/bite_down7.png" id="43_qk6i7"]
 [ext_resource type="Texture2D" uid="uid://b4illkhn2llxr" path="res://sprites/default/test/idle_up2.png" id="47_770dr"]
 [ext_resource type="Texture2D" uid="uid://cni1vnbnc44eb" path="res://sprites/default/test/idle_up3.png" id="48_8f1cb"]
 [ext_resource type="Texture2D" uid="uid://dgir2md36hctg" path="res://sprites/default/test/walk_up1.png" id="60_vdulj"]
@@ -241,11 +247,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("37_8txt3")
+"texture": ExtResource("40_2w11d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_qsb7e")
+}, {
+"duration": 2.0,
+"texture": ExtResource("39_qjsmb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_mwp2n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_0yhus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_jlll7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_qk6i7")
 }],
 "loop": false,
 "name": &"bite_down",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -526,7 +550,7 @@ unique_name_in_owner = true
 position = Vector2(1, -51)
 scale = Vector2(0.296661, 0.30624)
 sprite_frames = SubResource("SpriteFrames_smehm")
-animation = &"bite_side"
+animation = &"bite_down"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../sprite")
@@ -560,6 +584,8 @@ one_shot = true
 [node name="DashCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="BiteLungeTimer" type="Timer" parent="."]
+
 [node name="AttackHitbox" type="Area2D" parent="." groups=["player_attack"]]
 collision_layer = 2
 
@@ -592,6 +618,7 @@ debug_color = Color(0.6117647, 0.44705883, 0, 0.7607843)
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_cooldown_timer_timeout"]
+[connection signal="timeout" from="BiteLungeTimer" to="." method="_on_bite_lunge_timer_timeout"]
 [connection signal="area_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_area_entered"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="area_entered" from="BiteHitbox" to="." method="_on_bite_hitbox_area_entered"]

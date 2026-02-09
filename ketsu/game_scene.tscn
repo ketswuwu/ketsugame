@@ -28,9 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://cap4ugxfnrl1l" path="res://scenes/shopkeep.tscn" id="26_f54l4"]
 [ext_resource type="Texture2D" uid="uid://bp2tn6bdvbtab" path="res://sprites/junshopkeep.png" id="27_5smy7"]
 [ext_resource type="Script" uid="uid://bogbcrs7f2p55" path="res://shopkeepsprite.gd" id="27_glbr4"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jv0we"]
-size = Vector2(83.5, 79.5)
+[ext_resource type="PackedScene" uid="uid://bqcxhobdkpg2y" path="res://scenes/enemy - Copy.tscn" id="29_t06ws"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
 size = Vector2(307.375, 76.75)
@@ -203,10 +201,6 @@ target = NodePath("..")
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Actionable" unique_id=1164923897]
-position = Vector2(846, 243)
-shape = SubResource("RectangleShape2D_jv0we")
-
 [node name="Playermenu" parent="." unique_id=1198276800 instance=ExtResource("7_6e45b")]
 
 [node name="enemy" parent="." unique_id=48615467 instance=ExtResource("20_1wc4g")]
@@ -283,8 +277,20 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
 [node name="enemy2" parent="." unique_id=1547789300 instance=ExtResource("20_1wc4g")]
 position = Vector2(-355, -1006)
 
-[node name="enemy3" parent="." unique_id=707941245 instance=ExtResource("20_1wc4g")]
-position = Vector2(-311, -109)
+[node name="enemy4" parent="." unique_id=1381143129 instance=ExtResource("20_1wc4g")]
+position = Vector2(-1599, -1017)
+
+[node name="enemy5" parent="." unique_id=718814600 instance=ExtResource("20_1wc4g")]
+position = Vector2(-2195, -726)
+
+[node name="enemy6" parent="." unique_id=1125716414 instance=ExtResource("20_1wc4g")]
+position = Vector2(-2730, 459)
+
+[node name="enemy7" parent="." unique_id=2131065028 instance=ExtResource("20_1wc4g")]
+position = Vector2(-2365, 926)
+
+[node name="enemy8" parent="." unique_id=668101391 instance=ExtResource("20_1wc4g")]
+position = Vector2(1266, 865)
 
 [node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
 position = Vector2(-2723, -828)
@@ -303,3 +309,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("27_5smy7")
+
+[node name="Label3" type="Label" parent="." unique_id=1863648563]
+offset_left = -71.0
+offset_top = -279.0
+offset_right = 115.0
+offset_bottom = -230.0
+text = "To interact with objects.
+  Press SPACE or Enter"
+
+[node name="Label2" type="Label" parent="." unique_id=1586777675]
+offset_left = -64.0
+offset_top = -591.0
+offset_right = 92.0
+offset_bottom = -566.0
+text = " To attack, press Z"
+
+[node name="Label" type="Label" parent="." unique_id=1105870277]
+offset_left = 211.0
+offset_top = 321.0
+offset_right = 470.0
+offset_bottom = 448.0
+text = "Left, Right, Up and Down to move"
+
+[node name="Label4" type="Label" parent="." unique_id=691936992]
+offset_left = -107.0
+offset_top = -1149.0
+offset_right = 147.0
+offset_bottom = -1050.0
+text = "Attacking builds up BLOOD.
+With enough blood  
+you can perform a BITE with X."
+horizontal_alignment = 1
+
+[node name="enemy3" parent="." unique_id=235616788 instance=ExtResource("29_t06ws")]
+position = Vector2(-147, -1926)

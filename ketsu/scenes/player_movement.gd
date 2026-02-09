@@ -62,6 +62,7 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 var is_lunging: bool = false
 var can_deal_damage: bool = false
 var animation_direction: String = "down"
+var enemies_hit_this_swing := {}
 
 var is_attacking: bool = false
 var combo_step: int = 0
@@ -155,6 +156,8 @@ func _physics_process(delta):
 			start_bite()
 
 func start_attack():
+	enemies_hit_this_swing.clear()
+	 
 	if attack_combo_timer.is_stopped():
 		combo_step = 1
 	else:
@@ -222,17 +225,39 @@ func _on_attack_hitbox_area_entered(area: Area2D) -> void:
 	if not can_deal_damage or not is_attacking:
 		return
 
-	if area.is_in_group("enemy") and area.has_method("take_damage"):
-		var damage = Playerdata.stats["attack"]
-		area.take_damage(damage, global_position)
+	# -----------------------
+	# ENEMY HURTBOX
+	# -----------------------
+	if area.is_in_group("enemy_hurtbox"):
+		var enemy := area.get_parent()
+		if enemy == null:
+			return
 
-		# 🩸 Gain blood on hit
+		# already hit this enemy during this swing
+		if enemies_hit_this_swing.has(enemy):
+			return
+
+		# flying / invulnerable enemies
+		if "is_flying" in enemy and enemy.is_flying:
+			return
+
+		if "is_invulnerable" in enemy and enemy.is_invulnerable:
+			return
+
+		enemies_hit_this_swing[enemy] = true
+
+		var damage = Playerdata.stats["attack"]
+		enemy.take_damage(damage, global_position)
+
 		add_blood(blood_gain_per_hit)
-	
+		return
+
+	# -----------------------
+	# BREAKABLES
+	# -----------------------
 	if area.is_in_group("breakable") and area.has_method("take_damage"):
 		var damage = Playerdata.stats["attack"]
 		area.take_damage(damage)
-
 func apply_lunge():
 	var force = lunge_force[combo_step - 1]
 	velocity = last_move_dir * force
@@ -292,7 +317,7 @@ func _on_bite_hitbox_area_entered(area: Area2D):
 	if not is_biting:
 		return
 
-	if area.is_in_group("enemy") and area.has_method("take_damage"):
+	if area.is_in_group("enemy_hurtbox") and area.has_method("take_damage"):
 		bite_target = area
 
 		# 🛑 Strong hitstop

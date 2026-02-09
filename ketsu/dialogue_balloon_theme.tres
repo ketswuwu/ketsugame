@@ -12,11 +12,14 @@ region_rect = Rect2(0, 0, 1443, 613)
 
 [resource]
 CharacterName/base_type = &"RichTextLabel"
+CharacterName/constants/line_separation = 3
+CharacterName/constants/outline_size = 0
 CharacterName/font_sizes/normal_font_size = 30
 DialogueText/base_type = &"RichTextLabel"
+DialogueText/constants/text_highlight_h_padding = 0
 DialogueText/font_sizes/normal_font_size = 18
 MarginContainer/constants/margin_bottom = 10
-MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_left = 17
 MarginContainer/constants/margin_right = 10
-MarginContainer/constants/margin_top = 10
+MarginContainer/constants/margin_top = 6
 Panel/styles/panel = SubResource("StyleBoxTexture_hhhnj")

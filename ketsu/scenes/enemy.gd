@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var max_health: int = 15
+@export var max_health: int = 35
 @export var damage: int = 1
 @export var damage_cooldown: float = 0.5
 
@@ -184,7 +184,7 @@ func _physics_process(delta):
 			wander_direction = wander_direction.bounce(normal).normalized()
 			global_position += normal * 2.0   # tiny push away
 	if velocity.x != 0:
-		sprite.flip_h = velocity.x < 0
+		sprite.flip_h = velocity.x > 0
 	if is_knocked_back:
 		velocity = knockback_vector
 		knockback_vector = knockback_vector.move_toward(Vector2.ZERO, knockback_force * delta)

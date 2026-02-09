@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx5lym8uy56tt"]
+
+[ext_resource type="Texture2D" uid="uid://csa0w0x6ofnn4" path="res://sprites/default/download (1).png" id="1_e1f78"]
+[ext_resource type="Script" uid="uid://cypoj4apidt1u" path="res://actionable.gd" id="2_f821s"]
+[ext_resource type="Resource" uid="uid://dttikqahansw" path="res://dialogue/talking.dialogue" id="3_iyvq5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f821s"]
+radius = 87.28116
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.114754096, 0.114754096)
+texture = ExtResource("1_e1f78")
+
+[node name="Actionable" type="Area2D" parent="."]
+collision_layer = 16
+script = ExtResource("2_f821s")
+dialogue_resource = ExtResource("3_iyvq5")
+dialogue_start = "killitem"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable"]
+shape = SubResource("CircleShape2D_f821s")

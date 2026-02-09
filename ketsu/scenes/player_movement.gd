@@ -17,10 +17,9 @@ extends CharacterBody2D
 var current_blood: int = 0
 
 
-var dash_cost := 4
+var dash_cost := 0
 
 @onready var main_camera: Camera2D = get_tree().get_current_scene().get_node("Camera2D")
-
 
 
 var is_dashing: bool = false
@@ -91,6 +90,10 @@ func _ready():
 	update_blood_ui()
 	update_hp_ui()
 func _physics_process(delta):
+	if not State.player_can_move:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 	if is_attacking:
 		# No player control, but keep lunge velocity active
 		move_and_slide()
@@ -140,14 +143,14 @@ func _physics_process(delta):
 		move_and_slide()
 
 	# Attack input
-	if Input.is_action_just_pressed("attack_melee") and not is_attacking and not is_dashing:
+	if State.player_can_move and Input.is_action_just_pressed("attack_melee") and not is_attacking and not is_dashing:
 		start_attack()
 
 	# Dash input
-	if Input.is_action_just_pressed("dash") and can_dash and not is_attacking:
+	if State.player_can_move and Input.is_action_just_pressed("dash") and can_dash and not is_attacking:
 		if spend_blood(dash_cost):
 			start_dash()
-	if Input.is_action_just_pressed("bite") and not is_attacking and not is_dashing:
+	if State.player_can_move and Input.is_action_just_pressed("bite") and not is_attacking and not is_dashing:
 		if spend_blood(bite_cost):
 			start_bite()
 
@@ -259,10 +262,7 @@ func start_bite():
 	can_deal_damage = false
 
 	# 👉 APPLY FORWARD LUNGE
-	if last_move_dir != Vector2.ZERO:
-		velocity = last_move_dir.normalized() * bite_lunge_force
-		is_lunging = true
-		bite_lunge_timer.start(bite_lunge_duration)
+
 
 	animated_sprite_2d.play("bite_" + animation_direction)
 
@@ -499,11 +499,11 @@ func die():
 	get_tree().reload_current_scene()
 	# --- RELOAD SCENE ---
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") and State.player_can_move:
 		var actionables = interact_box.get_overlapping_areas()
 		if actionables.size() > 0:
+			State.player_can_move = false
 			actionables[0].action()
-			return
 
 
 func update_sprite_direction(input: Vector2) -> void:

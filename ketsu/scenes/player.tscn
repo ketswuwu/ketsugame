@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=3 uid="uid://bq2k8gyr10mi8"]
+[gd_scene format=3 uid="uid://bq2k8gyr10mi8"]
 
 [ext_resource type="Script" uid="uid://dcslm0qvnakcw" path="res://scenes/player_movement.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://bu3jee87vca41" path="res://sprites/default/test/1attack_down1.png" id="2_apa73"]
@@ -540,73 +540,71 @@ size = Vector2(45.5, 83)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_51ujp"]
 size = Vector2(68, 101)
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" unique_id=1030842140 groups=["player"]]
 collision_layer = 2
 collision_mask = 37
 script = ExtResource("1_g2els")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
+[node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1796646841]
 unique_name_in_owner = true
 position = Vector2(1, -51)
 scale = Vector2(0.296661, 0.30624)
 sprite_frames = SubResource("SpriteFrames_smehm")
 animation = &"bite_down"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1107891159]
 root_node = NodePath("../sprite")
-libraries = {
-&"": SubResource("AnimationLibrary_31cv2")
-}
+libraries/ = SubResource("AnimationLibrary_31cv2")
 movie_quit_on_finish = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=425373091]
 position = Vector2(0, -42)
 shape = SubResource("CapsuleShape2D_g2els")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=1349629399]
 one_shot = true
 
-[node name="AttackComboTimer" type="Timer" parent="."]
+[node name="AttackComboTimer" type="Timer" parent="." unique_id=1427581513]
 one_shot = true
 
-[node name="AttackLungeTimer" type="Timer" parent="."]
+[node name="AttackLungeTimer" type="Timer" parent="." unique_id=111983776]
 one_shot = true
 
-[node name="HurtTimer" type="Timer" parent="."]
+[node name="HurtTimer" type="Timer" parent="." unique_id=1184498908]
 one_shot = true
 
-[node name="DeathTimer" type="Timer" parent="."]
+[node name="DeathTimer" type="Timer" parent="." unique_id=2088517388]
 one_shot = true
 
-[node name="DashTimer" type="Timer" parent="."]
+[node name="DashTimer" type="Timer" parent="." unique_id=392425042]
 one_shot = true
 
-[node name="DashCooldownTimer" type="Timer" parent="."]
+[node name="DashCooldownTimer" type="Timer" parent="." unique_id=1688097904]
 one_shot = true
 
-[node name="BiteLungeTimer" type="Timer" parent="."]
+[node name="BiteLungeTimer" type="Timer" parent="." unique_id=1558090488]
 
-[node name="AttackHitbox" type="Area2D" parent="." groups=["player_attack"]]
+[node name="AttackHitbox" type="Area2D" parent="." unique_id=2111878211 groups=["player_attack"]]
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=595276632]
 position = Vector2(0, -42)
 shape = SubResource("RectangleShape2D_smehm")
 
-[node name="Direction" type="Marker2D" parent="."]
+[node name="Direction" type="Marker2D" parent="." unique_id=1845758402]
 
-[node name="ActionableFinder" type="Area2D" parent="Direction"]
+[node name="ActionableFinder" type="Area2D" parent="Direction" unique_id=219574468]
 collision_layer = 0
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Direction/ActionableFinder"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Direction/ActionableFinder" unique_id=636425551]
 position = Vector2(-0.75, -0.5)
 shape = SubResource("RectangleShape2D_ur7pv")
 
-[node name="BiteHitbox" type="Area2D" parent="."]
+[node name="BiteHitbox" type="Area2D" parent="." unique_id=117899657]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BiteHitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BiteHitbox" unique_id=60830166]
 position = Vector2(0, 8.5)
 shape = SubResource("RectangleShape2D_51ujp")
 debug_color = Color(0.6117647, 0.44705883, 0, 0.7607843)

@@ -34,7 +34,7 @@ size = Vector2(57.5, 69)
 size = Vector2(57.5, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0u7m"]
-size = Vector2(95.5, 53.5)
+size = Vector2(95.5, 7.5)
 
 [node name="room1" type="Node2D"]
 script = ExtResource("1_8oql1")
@@ -123,7 +123,7 @@ collision_layer = 32
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hole"]
-position = Vector2(18, -386.25)
+position = Vector2(18, -363.25)
 shape = SubResource("RectangleShape2D_d0u7m")
 
 [connection signal="body_entered" from="playerdetector" to="." method="_on_playerdetector_body_entered"]

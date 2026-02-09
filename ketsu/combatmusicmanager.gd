@@ -30,8 +30,11 @@ func enemy_stopped_combat():
 
 	if enemies_in_combat == 0:
 		_fade_out()
-
+		
 func _play_music():
+	if State.in_shop == "true":
+		return
+
 	if is_playing or music.stream == null:
 		return
 
@@ -43,7 +46,6 @@ func _play_music():
 
 	tween = create_tween()
 	tween.tween_property(music, "volume_db", 0, fade_in_time)
-	
 func _fade_out():
 	if not is_playing:
 		return

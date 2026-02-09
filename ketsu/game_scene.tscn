@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://43q55xbt378f"]
+[gd_scene format=3 uid="uid://43q55xbt378f"]
 
 [ext_resource type="Texture2D" uid="uid://bctb5n3b4xkig" path="res://tiles/map/fil,er.png" id="1_jv0we"]
 [ext_resource type="PackedScene" uid="uid://bq2k8gyr10mi8" path="res://scenes/player.tscn" id="1_mlf6e"]
@@ -24,12 +24,16 @@
 [ext_resource type="PackedScene" uid="uid://bmamodd5qvwsv" path="res://scenes/breakablewall.tscn" id="14_snaye"]
 [ext_resource type="PackedScene" uid="uid://wlxig4naodtp" path="res://scenes/transithall.tscn" id="16_nuflt"]
 [ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="20_1wc4g"]
+[ext_resource type="PackedScene" uid="uid://bx5lym8uy56tt" path="res://scenes/killitem.tscn" id="25_if5p2"]
+[ext_resource type="PackedScene" uid="uid://cap4ugxfnrl1l" path="res://scenes/shopkeep.tscn" id="26_f54l4"]
+[ext_resource type="Texture2D" uid="uid://bp2tn6bdvbtab" path="res://sprites/junshopkeep.png" id="27_5smy7"]
+[ext_resource type="Script" uid="uid://bogbcrs7f2p55" path="res://shopkeepsprite.gd" id="27_glbr4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jv0we"]
 size = Vector2(83.5, 79.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
-size = Vector2(116.75, 137.5)
+size = Vector2(307.375, 76.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if5p2"]
 size = Vector2(125, 113.5)
@@ -49,142 +53,142 @@ bg_color = Color(0.084330924, 0, 0.005522677, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f54l4"]
 bg_color = Color(0.82121944, 0.20166239, 0.27884564, 1)
 
-[node name="game_scene" type="Node2D"]
+[node name="game_scene" type="Node2D" unique_id=1782800984]
 script = ExtResource("1_nuflt")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=815883826]
 position = Vector2(-2189.2502, -399.75)
 scale = Vector2(0.17116229, 0.16979165)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=324066385]
 position = Vector2(1159, -305.5)
 scale = Vector2(0.56016606, 0.49375004)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D3" type="Sprite2D" parent="."]
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1654931306]
 position = Vector2(-1413, 784.5)
 scale = Vector2(0.54771787, 0.5479166)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D4" type="Sprite2D" parent="."]
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=1299422777]
 position = Vector2(-493.75, 737.75)
 scale = Vector2(0.6255186, 0.5135416)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D5" type="Sprite2D" parent="."]
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=1247774243]
 position = Vector2(969.62506, 807.50006)
 scale = Vector2(0.84076804, 0.35208333)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D5"]
+[node name="Sprite2D5" type="Sprite2D" parent="Sprite2D5" unique_id=1048785201]
 position = Vector2(-1910.5215, -5203.314)
 scale = Vector2(0.5955845, 1.1775149)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D6" type="Sprite2D" parent="."]
+[node name="Sprite2D6" type="Sprite2D" parent="." unique_id=2028106114]
 position = Vector2(584.5, -662)
 scale = Vector2(0.32987544, 0.41666666)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D7" type="Sprite2D" parent="."]
+[node name="Sprite2D7" type="Sprite2D" parent="." unique_id=2030888467]
 position = Vector2(-1862.5, -1072)
 scale = Vector2(0.5580915, 0.4958333)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D8" type="Sprite2D" parent="."]
+[node name="Sprite2D8" type="Sprite2D" parent="." unique_id=1817655896]
 position = Vector2(-1978, -1657)
 scale = Vector2(0.5518672, 0.6041668)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D9" type="Sprite2D" parent="."]
+[node name="Sprite2D9" type="Sprite2D" parent="." unique_id=1919749554]
 position = Vector2(-1803.5, -1930.5)
 scale = Vector2(1.2759336, 0.49375033)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D10" type="Sprite2D" parent="."]
+[node name="Sprite2D10" type="Sprite2D" parent="." unique_id=951669852]
 position = Vector2(-877, -1930.5)
 scale = Vector2(0.7551868, 0.49375033)
 texture = ExtResource("1_jv0we")
 
-[node name="Sprite2D11" type="Sprite2D" parent="."]
+[node name="Sprite2D11" type="Sprite2D" parent="." unique_id=586671503]
 position = Vector2(-2707, 146)
 scale = Vector2(0.62655574, 0.5083334)
 texture = ExtResource("1_jv0we")
 
-[node name="hallway2" parent="." instance=ExtResource("1_opqoc")]
+[node name="hallway2" parent="." unique_id=542608549 instance=ExtResource("1_opqoc")]
 position = Vector2(205, 775)
 scale = Vector2(0.54, 0.54)
 
-[node name="breakableroom" parent="." instance=ExtResource("2_bpcsf")]
+[node name="breakableroom" parent="." unique_id=1015314039 instance=ExtResource("2_bpcsf")]
 position = Vector2(-1707.0001, 749)
 scale = Vector2(0.54, 0.54)
 
-[node name="room1" parent="." instance=ExtResource("1_po0ka")]
+[node name="room1" parent="." unique_id=523725637 instance=ExtResource("1_po0ka")]
 position = Vector2(0, 1)
 
-[node name="room2" parent="." instance=ExtResource("2_6e45b")]
+[node name="room2" parent="." unique_id=1772414863 instance=ExtResource("2_6e45b")]
 position = Vector2(-470, -1129)
 scale = Vector2(0.544, 0.544)
 
-[node name="room3" parent="." instance=ExtResource("3_e35lh")]
+[node name="room3" parent="." unique_id=1852671034 instance=ExtResource("3_e35lh")]
 position = Vector2(1136, -721)
 scale = Vector2(0.54, 0.54)
 
-[node name="treasureroom" parent="." instance=ExtResource("5_miq82")]
+[node name="treasureroom" parent="." unique_id=980682816 instance=ExtResource("5_miq82")]
 position = Vector2(-1347.0001, -1368)
 scale = Vector2(0.54, 0.54)
 
-[node name="hallway1" parent="." instance=ExtResource("4_udeyl")]
+[node name="hallway1" parent="." unique_id=999673912 instance=ExtResource("4_udeyl")]
 position = Vector2(-1180.0001, -1093)
 scale = Vector2(0.54, 0.54)
 
-[node name="Node2D4" parent="." instance=ExtResource("16_nuflt")]
+[node name="Node2D4" parent="." unique_id=587714672 instance=ExtResource("16_nuflt")]
 position = Vector2(-1264, -1995.0001)
 scale = Vector2(0.54, 0.54)
 
-[node name="shoproom" parent="." instance=ExtResource("6_ueiaa")]
+[node name="shoproom" parent="." unique_id=868079818 instance=ExtResource("6_ueiaa")]
 position = Vector2(-1973, -1967.0001)
 scale = Vector2(0.54, 0.54)
 
-[node name="leaduproom" parent="." instance=ExtResource("6_j5hk1")]
+[node name="leaduproom" parent="." unique_id=1700947798 instance=ExtResource("6_j5hk1")]
 position = Vector2(-2068, -1046)
 scale = Vector2(0.54, 0.54)
 
-[node name="bossroom" parent="." instance=ExtResource("8_daj04")]
+[node name="bossroom" parent="." unique_id=1882900473 instance=ExtResource("8_daj04")]
 position = Vector2(-146.00002, -1995.0001)
 scale = Vector2(0.54, 0.54)
 
-[node name="pillarroom" parent="." instance=ExtResource("10_bpcsf")]
+[node name="pillarroom" parent="." unique_id=1259854678 instance=ExtResource("10_bpcsf")]
 position = Vector2(1131, 318)
 scale = Vector2(0.54, 0.54)
 
-[node name="node2d" parent="." instance=ExtResource("13_h5hfs")]
+[node name="node2d" parent="." unique_id=24730236 instance=ExtResource("13_h5hfs")]
 position = Vector2(-2711.0002, -466)
 scale = Vector2(0.54, 0.54)
 
-[node name="Node2D2" parent="." instance=ExtResource("14_na8jj")]
+[node name="Node2D2" parent="." unique_id=883360044 instance=ExtResource("14_na8jj")]
 position = Vector2(-2167.9998, -99.99999)
 scale = Vector2(0.36, 0.36)
 
-[node name="Node2D" parent="." instance=ExtResource("16_nuflt")]
+[node name="Node2D" parent="." unique_id=331707044 instance=ExtResource("16_nuflt")]
 position = Vector2(-895, 757)
 scale = Vector2(0.6, 0.6)
 
-[node name="bottomleft" parent="." instance=ExtResource("12_3d2pr")]
+[node name="bottomleft" parent="." unique_id=208099556 instance=ExtResource("12_3d2pr")]
 position = Vector2(-2456, 582.00006)
 scale = Vector2(0.54, 0.54)
 
-[node name="breakablewall" parent="." instance=ExtResource("14_snaye")]
+[node name="breakablewall" parent="." unique_id=107099366 instance=ExtResource("14_snaye")]
 position = Vector2(-2714, 119)
 scale = Vector2(0.54, 0.54)
 
-[node name="player" parent="." instance=ExtResource("1_mlf6e")]
+[node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
 position = Vector2(20, 353)
 motion_mode = 1
 move_speed = 400.0
 
-[node name="Camera2D" type="Camera2D" parent="player" node_paths=PackedStringArray("target")]
+[node name="Camera2D" type="Camera2D" parent="player" unique_id=1783320603 node_paths=PackedStringArray("target")]
 position = Vector2(-3, -42)
 rotation = 3.14159
 scale = Vector2(0.45, nan)
@@ -195,53 +199,64 @@ position_smoothing_speed = 10.0
 script = ExtResource("3_v1wow")
 target = NodePath("..")
 
-[node name="Actionable" parent="." instance=ExtResource("4_kdryc")]
+[node name="Actionable" parent="." unique_id=916328863 instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Actionable"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Actionable" unique_id=1164923897]
 position = Vector2(846, 243)
 shape = SubResource("RectangleShape2D_jv0we")
 
-[node name="Playermenu" parent="." instance=ExtResource("7_6e45b")]
+[node name="Playermenu" parent="." unique_id=1198276800 instance=ExtResource("7_6e45b")]
 
-[node name="enemy" parent="." instance=ExtResource("20_1wc4g")]
+[node name="enemy" parent="." unique_id=48615467 instance=ExtResource("20_1wc4g")]
 position = Vector2(338, -1059)
 
-[node name="barrel" type="StaticBody2D" parent="."]
+[node name="barrel" type="StaticBody2D" parent="." unique_id=511868171]
 position = Vector2(-831, 126)
 
-[node name="Actionable" parent="barrel" instance=ExtResource("4_kdryc")]
+[node name="Actionable" parent="barrel" unique_id=1057447505 instance=ExtResource("4_kdryc")]
 dialogue_resource = ExtResource("5_6e45b")
 dialogue_start = "barrel"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="barrel/Actionable"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="barrel/Actionable" unique_id=391255943]
 position = Vector2(1308.375, -451.75)
 shape = SubResource("RectangleShape2D_nuflt")
 
-[node name="Actionable" parent="barrel/Actionable" instance=ExtResource("4_kdryc")]
+[node name="Actionable" parent="barrel/Actionable" unique_id=894160206 instance=ExtResource("4_kdryc")]
 
-[node name="Actionable2" parent="." instance=ExtResource("4_kdryc")]
+[node name="Actionable2" parent="." unique_id=1229651375 instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 dialogue_start = "dash_tutorial"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable2" unique_id=1182921661]
 position = Vector2(851.5, -471.75)
 shape = SubResource("RectangleShape2D_if5p2")
 
-[node name="Actionable3" parent="." instance=ExtResource("4_kdryc")]
+[node name="Actionable3" parent="." unique_id=276453222 instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 dialogue_start = "cage"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable3" unique_id=1577475176]
 position = Vector2(384, -438.5)
 shape = SubResource("RectangleShape2D_f54l4")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Actionable4" parent="." unique_id=836113520 instance=ExtResource("4_kdryc")]
+position = Vector2(-831, 126)
+dialogue_resource = ExtResource("5_6e45b")
+dialogue_start = "BreakableWall"
 
-[node name="BloodBar" type="ProgressBar" parent="UI"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable4" unique_id=1502271131]
+position = Vector2(-1878.6875, 68.625)
+shape = SubResource("RectangleShape2D_nuflt")
+
+[node name="Actionable" parent="Actionable4" unique_id=1034492142 instance=ExtResource("4_kdryc")]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=457656744]
+
+[node name="BloodBar" type="ProgressBar" parent="UI" unique_id=690133595]
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 20.0
@@ -253,7 +268,7 @@ theme_override_styles/background = SubResource("StyleBoxFlat_jv0we")
 theme_override_styles/fill = SubResource("StyleBoxFlat_nuflt")
 fill_mode = 3
 
-[node name="HPBar" type="ProgressBar" parent="UI"]
+[node name="HPBar" type="ProgressBar" parent="UI" unique_id=406643298]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -265,8 +280,26 @@ grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_if5p2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
 
-[node name="enemy2" parent="." instance=ExtResource("20_1wc4g")]
+[node name="enemy2" parent="." unique_id=1547789300 instance=ExtResource("20_1wc4g")]
 position = Vector2(-355, -1006)
 
-[node name="enemy3" parent="." instance=ExtResource("20_1wc4g")]
+[node name="enemy3" parent="." unique_id=707941245 instance=ExtResource("20_1wc4g")]
 position = Vector2(-311, -109)
+
+[node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
+position = Vector2(-2723, -828)
+
+[node name="Node2D5" parent="." unique_id=408097675 instance=ExtResource("26_f54l4")]
+position = Vector2(-1979, -2119)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=75319310]
+visible = false
+script = ExtResource("27_glbr4")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1642613581]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("27_5smy7")

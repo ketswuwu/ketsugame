@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Ketsu"
 run/main_scene="uid://c35ekx8l4seuy"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -24,6 +28,8 @@ Hitstop="*res://hitstop.gd"
 State="*res://state.gd"
 RoomManager="*res://RoomManager.gd"
 Combatmusicmanager="*res://combatmusicmanager.gd"
+Fade="*uid://c222o0gifa4c"
+ShopMusic="*uid://bdl0b7dt8fbvc"
 
 [dialogue_manager]
 

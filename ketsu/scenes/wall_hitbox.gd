@@ -41,4 +41,5 @@ func shake():
 	is_shaking = false
 
 func break_wall():
+	State.wall_status = "broken"
 	queue_free()

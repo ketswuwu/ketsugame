@@ -1,4 +1,5 @@
 ~ start
+set State.in_cutscene = true
 set State.player_can_move = false
 set State.in_boss = "true"
 if State.note_status == "read"
@@ -18,4 +19,5 @@ else
 set State.player_can_move = true
 set State.in_boss = "false"
 set State.boss_can_move = true
+set State.in_cutscene = false
 => END

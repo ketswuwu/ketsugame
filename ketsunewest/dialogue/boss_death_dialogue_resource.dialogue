@@ -1,4 +1,5 @@
 ~ start
+set State.in_cutscene = true
 set State.player_can_move = false
 Manananggal: AAAAAA
 Manananggal: How dare you... How could you have...
@@ -12,4 +13,5 @@ Mayari: Pero buhay ako, di parang ikaw.
 Manananggal: T-totoo n-naman...
 The Manananggal lays lifeless on the ground.
 You look onwards at the exit. This is going to be a long night.
+set State.in_cutscene = false
 => END

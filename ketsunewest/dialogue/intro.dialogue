@@ -1,0 +1,12 @@
+~ start
+set State.in_cutscene = true
+set State.intro = "cutscene1"
+Mayari: I remember that night...
+set State.intro = "cutscene2"
+Mayari: Everything changed after that. 
+set State.intro = "cutscene3"
+Mayari: And then he came back. 
+set State.intro = "cutscene4"
+Mayari: Amongus.
+set State.in_cutscene = false
+=> END!

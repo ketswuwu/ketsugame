@@ -14,4 +14,6 @@ Manananggal: T-totoo n-naman...
 The Manananggal lays lifeless on the ground.
 You look onwards at the exit. This is going to be a long night.
 set State.in_cutscene = false
+set State.player_can_move = true
+set State.boss = ""
 => END

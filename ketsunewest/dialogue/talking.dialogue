@@ -274,3 +274,13 @@ set Playerdata.items["Pesos"] = Playerdata.items["Pesos"] + 25
 You now have {{Playerdata.items["Pesos"]}}₱
 set State.player_can_move = true
 => END
+
+~ aga_note
+Aya: What is this? A note?
+You pick up the piece of paper and hold it up to your face. It reads-
+"I'm glad you've made it through the first floor. If you wish for us to meet again however, you'll have to go even further down.
+Good luck, my dear."
+Aya sighs.
+Aya: Well, it's time to go.
+set State.player_can_move = true
+=> END

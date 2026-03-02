@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bdgiqnke4tw8l"]
 
+[ext_resource type="Script" uid="uid://gla607mdlhcb" path="res://scenes/bossroom.gd" id="1_3m531"]
 [ext_resource type="Texture2D" uid="uid://5pqrak6yx4so" path="res://tiles/map/bossroom.png" id="1_p0u1f"]
+[ext_resource type="Script" uid="uid://c17oys8wt172e" path="res://scenes/trigger.gd" id="2_blb1r"]
 [ext_resource type="Script" uid="uid://4cjg7f6wawsf" path="res://scenes/gagte.gd" id="2_jqod1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0u1f"]
@@ -36,7 +38,23 @@ size = Vector2(2363, 1794)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_csjr4"]
 size = Vector2(81.5, 332)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gl4p8"]
+size = Vector2(317, 501)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6v0ra"]
+size = Vector2(330.5, 499)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7cw6h"]
+size = Vector2(316, 501)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_umae7"]
+size = Vector2(310.5, 506)
+
 [node name="Node2D" type="Node2D" unique_id=248812873]
+script = ExtResource("1_3m531")
+
+[node name="camerapoint" type="Marker2D" parent="." unique_id=1659936003]
+position = Vector2(-1, 4)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1256163225]
 texture = ExtResource("1_p0u1f")
@@ -84,6 +102,7 @@ shape = SubResource("RectangleShape2D_a4e2p")
 [node name="trigger" type="Area2D" parent="." unique_id=1436680533]
 collision_layer = 0
 collision_mask = 2
+script = ExtResource("2_blb1r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="trigger" unique_id=1253729314]
 position = Vector2(2.5, 73)
@@ -98,5 +117,23 @@ script = ExtResource("2_jqod1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="gagte" unique_id=615307282]
 shape = SubResource("RectangleShape2D_csjr4")
+
+[node name="PillarHitbox" type="Area2D" parent="." unique_id=507756387 groups=["pillar"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PillarHitbox" unique_id=818931413]
+position = Vector2(1954.5, -703)
+shape = SubResource("RectangleShape2D_gl4p8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PillarHitbox" unique_id=988454578]
+position = Vector2(3202.75, -715)
+shape = SubResource("RectangleShape2D_6v0ra")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PillarHitbox" unique_id=212939345]
+position = Vector2(1951, 303)
+shape = SubResource("RectangleShape2D_7cw6h")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="PillarHitbox" unique_id=1399829856]
+position = Vector2(3186.75, 291.5)
+shape = SubResource("RectangleShape2D_umae7")
 
 [connection signal="body_entered" from="trigger" to="gagte" method="_on_trigger_body_entered"]

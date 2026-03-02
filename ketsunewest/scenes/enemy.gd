@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var max_health: int = 35
 @export var damage: int = 1
 @export var damage_cooldown: float = 0.5
-
+signal died(enemy)
 var can_damage: bool = true
 var player_in_range: Node = null
 var current_health: int
@@ -119,6 +119,9 @@ func take_damage(amount: int, source_position: Vector2 = global_position):
 func die():
 	print("[Enemy] Died!")
 
+	# Tell the room we died (so it can spawn next wave)
+	died.emit(self)
+
 	if is_chasing:
 		Combatmusicmanager.enemy_stopped_combat()
 
@@ -132,9 +135,6 @@ func die():
 
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
-
-
-
 	# 🔻 When player enters the enemy’s hit area
 func _on_body_entered(body):
 	if body.is_in_group("player"):

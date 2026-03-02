@@ -80,3 +80,18 @@ shape = SubResource("RectangleShape2D_dfjex")
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="stuff" unique_id=1303221966]
 position = Vector2(395, -793.5)
 shape = SubResource("RectangleShape2D_6y7xb")
+
+[node name="spawn1" type="Marker2D" parent="." unique_id=516220925]
+position = Vector2(-267, 932)
+
+[node name="spawn2" type="Marker2D" parent="." unique_id=1918012444]
+position = Vector2(295, 819)
+
+[node name="spawn3" type="Marker2D" parent="." unique_id=1588163641]
+position = Vector2(-292, -521)
+
+[node name="spawn4" type="Marker2D" parent="." unique_id=1141510555]
+position = Vector2(313, -299)
+
+[node name="camerapoint" type="Marker2D" parent="." unique_id=482085352]
+position = Vector2(3, 0)

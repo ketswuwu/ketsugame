@@ -51,7 +51,7 @@ var character_direction: Vector2
 @onready var bite_lunge_timer: Timer = $BiteLungeTimer
 @onready var blood_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/BloodBar")
 @onready var hp_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/HPBar")
-@export var bite_cost := 20
+@export var bite_cost := 50
 @export var bite_damage := 15
 @export var bite_heal := 2
 @export var bite_duration := 0.35
@@ -68,7 +68,7 @@ var is_attacking: bool = false
 var combo_step: int = 0
 var max_combo: int = 3
 var combo_window: float = 0.8  # seconds to continue combo
-var lunge_force := [150, 150, 700]  # Attack 1, 2, 3
+var lunge_force := [150, 150, 450]  # Attack 1, 2, 3
 # attack 1 → 40 px
 # attack 2 → 60 px
 # attack 3 → 120 px (big lunge)

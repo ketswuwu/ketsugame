@@ -23,7 +23,6 @@
 [ext_resource type="PackedScene" uid="uid://c6rc0kvn6d4dg" path="res://scenes/transitionhall2.tscn" id="14_na8jj"]
 [ext_resource type="PackedScene" uid="uid://bmamodd5qvwsv" path="res://scenes/breakablewall.tscn" id="14_snaye"]
 [ext_resource type="PackedScene" uid="uid://wlxig4naodtp" path="res://scenes/transithall.tscn" id="16_nuflt"]
-[ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="20_1wc4g"]
 [ext_resource type="PackedScene" uid="uid://5vwvkiyg0ysj" path="res://scenes/chest1.tscn" id="25_0pvt5"]
 [ext_resource type="PackedScene" uid="uid://bx5lym8uy56tt" path="res://scenes/killitem.tscn" id="25_if5p2"]
 [ext_resource type="Texture2D" uid="uid://nmxs47fq78gk" path="res://sprites/ui/bloodbar2.png" id="26_dtvpm"]
@@ -33,6 +32,8 @@
 [ext_resource type="Script" uid="uid://bogbcrs7f2p55" path="res://shopkeepsprite.gd" id="27_glbr4"]
 [ext_resource type="Texture2D" uid="uid://bbvhpw8myah2b" path="res://sprites/ui/HEALTHBAR.png" id="27_magc2"]
 [ext_resource type="PackedScene" uid="uid://bqcxhobdkpg2y" path="res://scenes/enemy - Copy.tscn" id="29_t06ws"]
+[ext_resource type="Script" uid="uid://bl7jjeqkb0y7c" path="res://bossbar.gd" id="30_l3lgf"]
+[ext_resource type="Texture2D" uid="uid://ww670652u5n1" path="res://sprites/default/note.png" id="30_r2sjb"]
 [ext_resource type="Script" uid="uid://bth4f2iv2weyd" path="res://canvas_layer_2.gd" id="34_1qokk"]
 [ext_resource type="Script" uid="uid://cvmdrkmucyc5d" path="res://cutscenetrigger.gd" id="34_7nf4l"]
 [ext_resource type="Resource" uid="uid://cqe2hxgid78lx" path="res://dialogue/bossencounter.dialogue" id="35_cxwtw"]
@@ -40,12 +41,13 @@
 [ext_resource type="Texture2D" uid="uid://c337yt6cyf847" path="res://sprites/cutscenes/end]/2.png" id="36_1t5pe"]
 [ext_resource type="Script" uid="uid://dp3y6hhnl48xs" path="res://canvas_layer_3.gd" id="36_r2sjb"]
 [ext_resource type="Resource" uid="uid://c0aoqm2ckhwxs" path="res://dialogue/boss_death_dialogue_resource.dialogue" id="37_e02u1"]
+[ext_resource type="Script" uid="uid://c2rtg1buehmpt" path="res://exit.gd" id="40_e02u1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
 size = Vector2(307.375, 76.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if5p2"]
-size = Vector2(125, 113.5)
+size = Vector2(83.5, 109.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f54l4"]
 size = Vector2(134, 133)
@@ -94,6 +96,9 @@ bg_color = Color(0.82121944, 0.20166239, 0.27884564, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxwtw"]
 size = Vector2(170, 198)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_20o3c"]
+size = Vector2(90, 182)
 
 [node name="game_scene" type="Node2D" unique_id=1782800984]
 script = ExtResource("1_nuflt")
@@ -229,9 +234,25 @@ scale = Vector2(0.54, 0.54)
 position = Vector2(-1979, -2119)
 
 [node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
-position = Vector2(20, 353)
+position = Vector2(-952, -1929)
 motion_mode = 1
 move_speed = 400.0
+attack_duration = 0.2
+invulnerability_time = 0.6
+flicker_speed = 0.1
+knockback_force = 600.0
+knockback_duration = 0.2
+dash_speed = 1200.0
+dash_duration = 0.15
+dash_cooldown = 0.5
+max_blood = 100
+blood_gain_per_hit = 8
+bite_lunge_force = 1000
+bite_lunge_duration = 0.12
+bite_cost = 50
+bite_damage = 15
+bite_heal = 2
+bite_duration = 0.35
 
 [node name="Camera2D" type="Camera2D" parent="player" unique_id=1783320603 node_paths=PackedStringArray("target")]
 position = Vector2(-3, -42)
@@ -250,9 +271,6 @@ dialogue_resource = ExtResource("5_6e45b")
 
 [node name="Playermenu" parent="." unique_id=1198276800 instance=ExtResource("7_6e45b")]
 
-[node name="enemy" parent="." unique_id=48615467 instance=ExtResource("20_1wc4g")]
-position = Vector2(338, -1059)
-
 [node name="barrel" type="StaticBody2D" parent="." unique_id=511868171]
 position = Vector2(-831, 126)
 
@@ -270,6 +288,7 @@ shape = SubResource("RectangleShape2D_nuflt")
 position = Vector2(-511, -1508)
 
 [node name="Actionable2" parent="." unique_id=1229651375 instance=ExtResource("4_kdryc")]
+visible = false
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 dialogue_start = "dash_tutorial"
@@ -278,8 +297,23 @@ dialogue_start = "dash_tutorial"
 position = Vector2(851.5, -471.75)
 shape = SubResource("RectangleShape2D_if5p2")
 
+[node name="Actionable5" parent="." unique_id=1830167983 instance=ExtResource("4_kdryc")]
+position = Vector2(-831, 126)
+dialogue_resource = ExtResource("5_6e45b")
+dialogue_start = "aga_note"
+
+[node name="Sprite2D2" type="Sprite2D" parent="Actionable5" unique_id=15263688]
+position = Vector2(3050, -2973)
+scale = Vector2(0.4769575, 0.4769575)
+texture = ExtResource("30_r2sjb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Actionable5" unique_id=2011596812]
+position = Vector2(3057, -2975)
+shape = SubResource("RectangleShape2D_if5p2")
+
 [node name="Actionable3" parent="." unique_id=276453222 instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
+scale = Vector2(0.99495775, 0.9990901)
 dialogue_resource = ExtResource("5_6e45b")
 dialogue_start = "cage"
 
@@ -336,23 +370,24 @@ grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_if5p2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
 
-[node name="enemy2" parent="." unique_id=1547789300 instance=ExtResource("20_1wc4g")]
-position = Vector2(-355, -1006)
+[node name="BossHp" type="Control" parent="UI" unique_id=1836830100 groups=["boss_ui"]]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("30_l3lgf")
 
-[node name="enemy4" parent="." unique_id=1381143129 instance=ExtResource("20_1wc4g")]
-position = Vector2(-1599, -1017)
-
-[node name="enemy5" parent="." unique_id=718814600 instance=ExtResource("20_1wc4g")]
-position = Vector2(-2195, -726)
-
-[node name="enemy6" parent="." unique_id=1125716414 instance=ExtResource("20_1wc4g")]
-position = Vector2(-2730, 459)
-
-[node name="enemy7" parent="." unique_id=2131065028 instance=ExtResource("20_1wc4g")]
-position = Vector2(-2365, 926)
-
-[node name="enemy8" parent="." unique_id=668101391 instance=ExtResource("20_1wc4g")]
-position = Vector2(1266, 865)
+[node name="BossHealthBar" type="ProgressBar" parent="UI/BossHp" unique_id=2065000236]
+layout_mode = 0
+offset_left = -351.0
+offset_right = 336.0
+offset_bottom = 27.0
+max_value = 50.0
 
 [node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
 position = Vector2(-2723, -828)
@@ -402,9 +437,6 @@ With enough blood
 you can perform a BITE with X."
 horizontal_alignment = 1
 
-[node name="enemy3" parent="." unique_id=235616788 instance=ExtResource("29_t06ws")]
-position = Vector2(-147, -1926)
-
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=16333938]
 visible = false
 script = ExtResource("34_1qokk")
@@ -439,3 +471,18 @@ dialogue_resource = ExtResource("35_cxwtw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cutscenetrigger" unique_id=2135133901]
 position = Vector2(-697, -1982)
 shape = SubResource("RectangleShape2D_cxwtw")
+
+[node name="exit" type="Area2D" parent="." unique_id=589611670]
+collision_mask = 3
+script = ExtResource("40_e02u1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="exit" unique_id=1556759956]
+position = Vector2(2380, -2827)
+shape = SubResource("RectangleShape2D_20o3c")
+
+[node name="enemy" parent="exit" unique_id=1381143129 instance=ExtResource("29_t06ws")]
+position = Vector2(-141, -1940)
+
+[node name="CanvasLayer4" type="CanvasLayer" parent="." unique_id=1324683691]
+
+[connection signal="body_entered" from="exit" to="exit" method="_on_body_entered"]

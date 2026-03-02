@@ -53,9 +53,7 @@
 [ext_resource type="Texture2D" uid="uid://crbumpqb5jkxv" path="res://sprites/default/test/3attack_up1.png" id="35_au8ao"]
 [ext_resource type="Texture2D" uid="uid://bxs51sngjiux4" path="res://sprites/default/test/3attack_up2.png" id="36_w5j5w"]
 [ext_resource type="Texture2D" uid="uid://k0c4oj3b2wji" path="res://sprites/default/test/idle_down1.png" id="37_51ujp"]
-[ext_resource type="Texture2D" uid="uid://d36bwwsr1mn7b" path="res://sprites/default/attackside.png" id="38_2w11d"]
 [ext_resource type="Texture2D" uid="uid://dsfaecnhjp5hw" path="res://sprites/default/test/bite_down2.png" id="38_qsb7e"]
-[ext_resource type="Texture2D" uid="uid://dasssapxm8s0g" path="res://sprites/default/attackup.png" id="39_770dr"]
 [ext_resource type="Texture2D" uid="uid://33kgu61gvpqm" path="res://sprites/default/test/bite_down3.png" id="39_qjsmb"]
 [ext_resource type="Texture2D" uid="uid://certoway0ey65" path="res://sprites/default/test/up_idle1.png" id="39_tk41t"]
 [ext_resource type="Texture2D" uid="uid://b0gra6uh5d1ac" path="res://sprites/default/test/bite_down1.png" id="40_2w11d"]
@@ -66,8 +64,22 @@
 [ext_resource type="Texture2D" uid="uid://bf63p3cdebljr" path="res://sprites/default/test/bite_down6.png" id="42_jlll7"]
 [ext_resource type="Texture2D" uid="uid://jq3fis4foduy" path="res://sprites/default/test/idle_down4.png" id="43_2w11d"]
 [ext_resource type="Texture2D" uid="uid://cmh6lb1ojbepo" path="res://sprites/default/test/bite_down7.png" id="43_qk6i7"]
+[ext_resource type="Texture2D" uid="uid://dkc2263iccjh6" path="res://sprites/default/test/bite_side1.png" id="44_vx63k"]
+[ext_resource type="Texture2D" uid="uid://dshtqgset0jab" path="res://sprites/default/test/bite_side2.png" id="45_lw0jh"]
+[ext_resource type="Texture2D" uid="uid://7g2jdqk4657q" path="res://sprites/default/test/bite_side3.png" id="46_ry8ed"]
 [ext_resource type="Texture2D" uid="uid://b4illkhn2llxr" path="res://sprites/default/test/idle_up2.png" id="47_770dr"]
+[ext_resource type="Texture2D" uid="uid://b2jtue0ybh7o" path="res://sprites/default/test/bite_side4.png" id="47_au8ao"]
 [ext_resource type="Texture2D" uid="uid://cni1vnbnc44eb" path="res://sprites/default/test/idle_up3.png" id="48_8f1cb"]
+[ext_resource type="Texture2D" uid="uid://bn482tl48m0a7" path="res://sprites/default/test/bite_side5.png" id="48_w5j5w"]
+[ext_resource type="Texture2D" uid="uid://da1nf4pm6r6u0" path="res://sprites/default/test/bite_side6.png" id="49_cbf1i"]
+[ext_resource type="Texture2D" uid="uid://c8oljewtxdumg" path="res://sprites/default/test/bite_side7.png" id="50_4vfid"]
+[ext_resource type="Texture2D" uid="uid://psd5jx8q2e81" path="res://sprites/default/test/bite_up1.png" id="51_ljgr3"]
+[ext_resource type="Texture2D" uid="uid://cfri0osuuwtyt" path="res://sprites/default/test/bite_up2.png" id="52_fr8ja"]
+[ext_resource type="Texture2D" uid="uid://bfc34va5l16ci" path="res://sprites/default/test/bite_up3.png" id="53_gvmy4"]
+[ext_resource type="Texture2D" uid="uid://cbbruf88n80ol" path="res://sprites/default/test/bite_up4.png" id="54_fcu33"]
+[ext_resource type="Texture2D" uid="uid://cj78pdia1lqvo" path="res://sprites/default/test/bite_up5.png" id="55_qmsq4"]
+[ext_resource type="Texture2D" uid="uid://glj0ygmtm3jb" path="res://sprites/default/test/bite_up6.png" id="56_5vs2b"]
+[ext_resource type="Texture2D" uid="uid://1v02iw3kj20w" path="res://sprites/default/test/bite_up7.png" id="57_a7i4v"]
 [ext_resource type="Texture2D" uid="uid://dgir2md36hctg" path="res://sprites/default/test/walk_up1.png" id="60_vdulj"]
 [ext_resource type="Texture2D" uid="uid://bpqmv3neeoslr" path="res://sprites/default/test/walk_up2.png" id="61_vau08"]
 [ext_resource type="Texture2D" uid="uid://bcl3u0jb3hqfg" path="res://sprites/default/test/walk_up3.png" id="62_qsb7e"]
@@ -273,19 +285,55 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("38_2w11d")
+"texture": ExtResource("44_vx63k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_lw0jh")
+}, {
+"duration": 2.0,
+"texture": ExtResource("46_ry8ed")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_au8ao")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_w5j5w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_cbf1i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_4vfid")
 }],
 "loop": false,
 "name": &"bite_side",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("39_770dr")
+"texture": ExtResource("51_ljgr3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_fr8ja")
+}, {
+"duration": 2.0,
+"texture": ExtResource("53_gvmy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_fcu33")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_qmsq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_5vs2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_a7i4v")
 }],
 "loop": false,
 "name": &"bite_up",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -544,13 +592,30 @@ size = Vector2(68, 101)
 collision_layer = 2
 collision_mask = 37
 script = ExtResource("1_g2els")
+move_speed = null
+attack_duration = null
+invulnerability_time = null
+flicker_speed = null
+knockback_force = null
+knockback_duration = null
+dash_speed = null
+dash_duration = null
+dash_cooldown = null
+max_blood = null
+blood_gain_per_hit = null
+bite_lunge_force = null
+bite_lunge_duration = null
+bite_cost = null
+bite_damage = null
+bite_heal = null
+bite_duration = null
 
 [node name="sprite" type="AnimatedSprite2D" parent="." unique_id=1796646841]
 unique_name_in_owner = true
 position = Vector2(1, -51)
 scale = Vector2(0.296661, 0.30624)
 sprite_frames = SubResource("SpriteFrames_smehm")
-animation = &"attack_up_3"
+animation = &"bite_up"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1107891159]
 root_node = NodePath("../sprite")

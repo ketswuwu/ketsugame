@@ -6,6 +6,7 @@ extends Area2D
 var triggered := false
 
 func _ready():
+	add_to_group("respawn_reset") # ✅ any name is fine, just match Respawn
 	body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body):
@@ -15,3 +16,7 @@ func _on_body_entered(body):
 	if body.is_in_group("player"):
 		triggered = true
 		DialogueManager.show_dialogue_balloon(dialogue_resource, start_node)
+
+func reset_on_respawn() -> void:
+	triggered = false
+	monitoring = true # ✅ makes sure it can fire again

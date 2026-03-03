@@ -1,32 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch2ee2g8cgxsb"]
+[gd_scene format=3 uid="uid://ch2ee2g8cgxsb"]
 
-[ext_resource type="Script" uid="uid://bu8v02tcha1ms" path="res://bullet.gd" id="1_y25gk"]
-[ext_resource type="Texture2D" uid="uid://if2ih4s4v8b2" path="res://sprites/977eec1a03bfc63a59d57232e841be4d.jpg" id="2_l5glv"]
+[ext_resource type="Texture2D" uid="uid://bbdi5tbsukotn" path="res://sprites/default/test/arrow.png" id="1_mkf8s"]
+[ext_resource type="Script" uid="uid://d4li44rdtmiii" path="res://scenes/bullet.gd" id="1_y25gk"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_eoqba"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_y25gk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_l5glv")
+"texture": ExtResource("1_mkf8s")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
-size = Vector2(112, 25)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5glv"]
+size = Vector2(106, 24)
 
-[node name="bullet" type="CharacterBody2D"]
+[node name="Area2D" type="Area2D" unique_id=1751541350 groups=["player_bullets"]]
+scale = Vector2(0.52, 0.52)
 script = ExtResource("1_y25gk")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-0.99998474, 1.0000114)
-scale = Vector2(0.20380436, 0.20380434)
-sprite_frames = SubResource("SpriteFrames_eoqba")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2103887891]
+rotation = -3.1043653
+sprite_frames = SubResource("SpriteFrames_y25gk")
 
-[node name="Hitbox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(7, 2.5)
-shape = SubResource("RectangleShape2D_y25gk")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1484730385]
+position = Vector2(1, -3)
+shape = SubResource("RectangleShape2D_l5glv")

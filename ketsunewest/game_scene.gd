@@ -1,7 +1,10 @@
 extends Node2D
 
+@onready var respawn_point: Marker2D = $Respawn1
+
 
 func _ready():
+	Respawn.set_respawn(respawn_point.global_position)
 	Combatmusicmanager.set_combat_music(
 		preload("res://audio/music.mp3")
 	)

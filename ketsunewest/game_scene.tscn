@@ -42,6 +42,8 @@
 [ext_resource type="Script" uid="uid://dp3y6hhnl48xs" path="res://canvas_layer_3.gd" id="36_r2sjb"]
 [ext_resource type="Resource" uid="uid://c0aoqm2ckhwxs" path="res://dialogue/boss_death_dialogue_resource.dialogue" id="37_e02u1"]
 [ext_resource type="Script" uid="uid://c2rtg1buehmpt" path="res://exit.gd" id="40_e02u1"]
+[ext_resource type="Script" uid="uid://bysbx660vfdem" path="res://screen_fader.gd" id="43_t7ufo"]
+[ext_resource type="PackedScene" uid="uid://cbo8arb82t8va" path="res://pause_menu.tscn" id="44_i1igs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
 size = Vector2(307.375, 76.75)
@@ -233,43 +235,12 @@ scale = Vector2(0.54, 0.54)
 [node name="Node2D5" parent="." unique_id=408097675 instance=ExtResource("26_f54l4")]
 position = Vector2(-1979, -2119)
 
-[node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
-position = Vector2(-952, -1929)
-motion_mode = 1
-move_speed = 400.0
-attack_duration = 0.2
-invulnerability_time = 0.6
-flicker_speed = 0.1
-knockback_force = 600.0
-knockback_duration = 0.2
-dash_speed = 1200.0
-dash_duration = 0.15
-dash_cooldown = 0.5
-max_blood = 100
-blood_gain_per_hit = 8
-bite_lunge_force = 1000
-bite_lunge_duration = 0.12
-bite_cost = 50
-bite_damage = 15
-bite_heal = 2
-bite_duration = 0.35
-
-[node name="Camera2D" type="Camera2D" parent="player" unique_id=1783320603 node_paths=PackedStringArray("target")]
-position = Vector2(-3, -42)
-rotation = 3.14159
-scale = Vector2(0.45, nan)
-skew = nan
-offset = Vector2(0, 1)
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-script = ExtResource("3_v1wow")
-target = NodePath("..")
-
 [node name="Actionable" parent="." unique_id=916328863 instance=ExtResource("4_kdryc")]
 position = Vector2(-831, 126)
 dialogue_resource = ExtResource("5_6e45b")
 
 [node name="Playermenu" parent="." unique_id=1198276800 instance=ExtResource("7_6e45b")]
+visible = false
 
 [node name="barrel" type="StaticBody2D" parent="." unique_id=511868171]
 position = Vector2(-831, 126)
@@ -331,6 +302,22 @@ position = Vector2(-1878.6875, 68.625)
 shape = SubResource("RectangleShape2D_nuflt")
 
 [node name="Actionable" parent="Actionable4" unique_id=1034492142 instance=ExtResource("4_kdryc")]
+
+[node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
+position = Vector2(21, 23)
+motion_mode = 1
+move_speed = 400.0
+
+[node name="Camera2D" type="Camera2D" parent="player" unique_id=1783320603 node_paths=PackedStringArray("target")]
+position = Vector2(-3, -42)
+rotation = 3.14159
+scale = Vector2(0.45, nan)
+skew = nan
+offset = Vector2(0, 1)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("3_v1wow")
+target = NodePath("..")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=457656744]
 
@@ -484,5 +471,24 @@ shape = SubResource("RectangleShape2D_20o3c")
 position = Vector2(-141, -1940)
 
 [node name="CanvasLayer4" type="CanvasLayer" parent="." unique_id=1324683691]
+
+[node name="Respawn1" type="Marker2D" parent="." unique_id=755961026]
+position = Vector2(14, 50)
+
+[node name="Respawn2" type="Marker2D" parent="." unique_id=334998273]
+position = Vector2(-1985, -1873)
+
+[node name="ScreenFader" type="CanvasLayer" parent="." unique_id=1933600813 groups=["screen_fader"]]
+script = ExtResource("43_t7ufo")
+
+[node name="FadeRect" type="ColorRect" parent="ScreenFader" unique_id=981780005]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="PauseMenu" parent="." unique_id=325811125 instance=ExtResource("44_i1igs")]
 
 [connection signal="body_entered" from="exit" to="exit" method="_on_body_entered"]

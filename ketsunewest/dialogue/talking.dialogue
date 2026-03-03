@@ -268,11 +268,16 @@ else
 		=> shopgreeting
 ~ chest
 set State.player_can_move = false
-You lift the chest's lid. Inside are cobwebs alongside...
-25₱!
-set Playerdata.items["Pesos"] = Playerdata.items["Pesos"] + 25
-You now have {{Playerdata.items["Pesos"]}}₱
-set State.player_can_move = true
+if State.chest_opened == true
+	An empty chest.
+	set State.player_can_move = true
+else
+	You lift the chest's lid. Inside are cobwebs alongside...
+	25₱!
+	set Playerdata.items["Pesos"] = Playerdata.items["Pesos"] + 25
+	You now have {{Playerdata.items["Pesos"]}}₱
+	set State.chest_opened = true
+	set State.player_can_move = true
 => END
 
 ~ aga_note

@@ -7,6 +7,11 @@ signal boss_died
 @onready var sfx_scream: AudioStreamPlayer = $ScreamWithEchoSoundEffect
 @export var arena_rect := Rect2(Vector2(-723, -2358), Vector2(1161, 739))
 
+@export var reset_health_on_respawn := true
+
+var _spawn_pos: Vector2
+var _spawn_rot: float
+
 @export var flight_speed: float = 800.0
 @export var dash_speed: float = 1500.0
 
@@ -90,6 +95,9 @@ var contact_can_damage: bool = true
 
 
 func _ready() -> void:
+	add_to_group("respawn_reset") # so Respawn can find it
+	_spawn_pos = global_position
+	_spawn_rot = global_rotation
 	hp = max_health
 	emit_signal("boss_started", max_health)
 	emit_signal("boss_hp_changed", hp, max_health)
@@ -116,6 +124,56 @@ func _ready() -> void:
 
 	_set_hurtbox_enabled(false)
 	_set_flying(true)
+	_play(anim_idle)
+
+func reset_on_respawn() -> void:
+	# Stop motion
+	velocity = Vector2.ZERO
+	move_and_slide()
+
+	# Reset transform
+	global_position = _spawn_pos
+	global_rotation = _spawn_rot
+
+	# Reset core boss state
+	phase = Phase.PHASE1
+	state = BossState.FLY
+
+	# Reset HP + UI signals
+	if reset_health_on_respawn:
+		hp = max_health
+		emit_signal("boss_started", max_health)
+		emit_signal("boss_hp_changed", hp, max_health)
+
+	# Clear targeting / contact damage
+	player = null
+	player_in_contact = null
+	contact_can_damage = true
+
+	# Reset timers / counters
+	land_timer = land_interval
+	land_time_left = 0.0
+	dash_cooldown_left = 0.0
+	dash_time_left = 0.0
+	phase2_fatigue_left = 0.0
+	tired_time_left = 0.0
+
+	# Reset special attack flags
+	attack_screams_left = 0
+	special_attack_active = false
+	queued_second_dash = false
+	scream_task_running = false
+	just_started_phase2 = false
+	awaiting_dash_after_scream = false
+
+	# Restore baseline mode/collisions (same as _ready)
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	collision_layer = 0
+	collision_mask = 0
+
+	_set_hurtbox_enabled(false)
+	_set_flying(true)
+	_pick_flight_target()
 	_play(anim_idle)
 	
 func _play_sfx(player: Node) -> void:
@@ -237,8 +295,6 @@ func take_damage(amount: int, from_position: Vector2) -> void:
 		_try_die()
 
 func _try_die() -> void:
-	# Boss can only die if player has salt
-	# (Autoload singleton is State)
 	if not ("salt" in State):
 		return
 
@@ -249,7 +305,6 @@ func _try_die() -> void:
 	State.boss = "dead"
 	emit_signal("boss_died")
 	queue_free()
-
 func _is_hittable() -> bool:
 	return (phase == Phase.PHASE1 and state == BossState.LAND_PHASE1) \
 		or (phase == Phase.PHASE2 and state == BossState.TIRED)

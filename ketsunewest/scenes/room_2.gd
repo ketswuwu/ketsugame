@@ -1,47 +1,79 @@
 extends Node2D
 
+@export var room_id: StringName = &"tutorial_room_01" # UNIQUE per room scene
 @export var enemy_scene: PackedScene
 @export var wave_delay: float = 0.6
 @export var spawn_stagger_delay: float = 0.12
 
 @onready var camerapoint: Marker2D = $camerapoint
+@onready var respawn_point: Marker2D = $respawn_point
 @onready var playerdetector: Area2D = $playerdetector
 
 @onready var spawn1: Marker2D = $spawn1
 @onready var spawn2: Marker2D = $spawn2
 @onready var spawn3: Marker2D = $spawn3
-
+@onready var gate1: StaticBody2D = $nobackwall
+@onready var gate2: StaticBody2D = $nobackwall2
 var started: bool = false
+var finished: bool = false
 var wave_index: int = 0
 var alive_in_wave: int = 0
 var spawning_next_wave: bool = false
 
+var spawned_enemies: Array[Node] = []
+
 
 func _ready() -> void:
+	_set_gate_layer(gate1, 0)
+	_set_gate_layer(gate2, 0)
 	playerdetector.body_entered.connect(_on_playerdetector_body_entered)
 
+	# If this room was already completed this run, keep it finished
+	if Respawn.is_room_completed(room_id):
+		finished = true
+		started = true
+		playerdetector.monitoring = false
 
+
+func _set_gate_layer(g: StaticBody2D, layer: int) -> void:
+	if not is_instance_valid(g):
+		return
+
+	g.collision_layer = layer
+
+	var shapes := g.find_children("*", "CollisionShape2D", true, false)
+	for s in shapes:
+		(s as CollisionShape2D).disabled = false
+func _open_gates() -> void:
+	_set_gate_layer(gate1, 0)
+	_set_gate_layer(gate2, 0)
+
+func _close_gates() -> void:
+	_set_gate_layer(gate1, 1)
+	_set_gate_layer(gate2, 1)
 func _on_playerdetector_body_entered(body: Node) -> void:
-	if started:
+	if finished or started:
 		return
 	if not body.is_in_group("player"):
 		return
 
+	# Set respawn + "current room" for death handling
+	Respawn.enter_room(self, room_id)
+
 	started = true
 	playerdetector.monitoring = false
 
-	# Lock camera to this room (smooth if your Camera script supports it)
+	# Lock camera to this room
 	var cam := _get_camera(body)
 	if cam and cam.has_method("lock_to_room"):
 		cam.lock_to_room(camerapoint.global_position)
-
-	# Start tutorial waves
+	await _close_gates()
 	await _start_next_wave()
 
 
 func _start_next_wave() -> void:
-	# Wave 0 => spawn 1 enemy at spawn1
-	# Wave 1 => spawn 3 enemies at spawn1, spawn2, spawn3
+	if finished:
+		return
 	if enemy_scene == null:
 		push_error("enemy_scene is not set on the tutorial room!")
 		return
@@ -56,11 +88,9 @@ func _start_next_wave() -> void:
 	elif wave_index == 1:
 		points = [spawn1, spawn2, spawn3]
 	else:
-		# all done
-		await _finish_tutorial()
+		await _finish_room()
 		return
 
-	# Spawn enemies (optionally staggered)
 	for i in range(points.size()):
 		var sp: Marker2D = points[i]
 
@@ -68,15 +98,18 @@ func _start_next_wave() -> void:
 		add_child(enemy)
 		enemy.global_position = sp.global_position
 
+		# Track and tag so we can clear on death
+		spawned_enemies.append(enemy)
+		if enemy.has_method("add_to_group"):
+			enemy.add_to_group("room_enemy")
+
 		alive_in_wave += 1
 
-		# Listen for death
 		if enemy.has_signal("died"):
 			enemy.died.connect(_on_enemy_died)
 		else:
-			push_warning("Enemy scene has no 'died' signal. The tutorial waves won't progress!")
+			push_warning("Enemy scene has no 'died' signal. Waves won't progress!")
 
-		# small delay between spawns (looks cleaner)
 		if i < points.size() - 1:
 			await get_tree().create_timer(spawn_stagger_delay).timeout
 
@@ -94,22 +127,52 @@ func _on_enemy_died(_enemy) -> void:
 		await _start_next_wave()
 
 
-func _finish_tutorial() -> void:
+func _finish_room() -> void:
+	finished = true
+	Respawn.mark_room_completed(room_id)
+
 	# Unlock camera back to normal
+	var player := get_tree().current_scene.find_child("Player", true, false)
+	var cam := _get_camera(player)
+	
+	await _open_gates()
+	
+	if cam and cam.has_method("unlock_room"):
+		cam.unlock_room()
+
+
+func reset_room() -> void:
+	# Called by Respawn when player dies in this room (and it's not completed)
+
+	# Unlock camera if it was locked here
 	var player := get_tree().current_scene.find_child("Player", true, false)
 	var cam := _get_camera(player)
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
 
+	# Kill any spawned enemies
+	for e in spawned_enemies:
+		if is_instance_valid(e):
+			e.queue_free()
+	spawned_enemies.clear()
+
+	# Reset wave logic
+	started = false
+	finished = false
+	wave_index = 0
+	alive_in_wave = 0
+	spawning_next_wave = false
+
+	# Allow re-trigger
+	playerdetector.monitoring = true
+
 
 func _get_camera(from_body: Node) -> Camera2D:
-	# Best case: camera is a child of the player
 	if from_body and from_body.has_node("Camera2D"):
 		var cam := from_body.get_node("Camera2D")
 		if cam is Camera2D:
 			return cam
 
-	# Fallback: search whole current scene
 	var scene := get_tree().current_scene
 	if scene == null:
 		return null

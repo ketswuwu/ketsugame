@@ -235,5 +235,6 @@ position = Vector2(-60, 49)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=812247896]
 stream = ExtResource("7_gdbsj")
+bus = &"SFX"
 
 [connection signal="body_entered" from="playerdetector" to="nobackwall" method="_on_playerdetector_body_entered"]

@@ -18,3 +18,4 @@ var in_boss: String = ""
 var boss_can_move: bool = false
 var boss: String = "alive"
 var in_cutscene: bool = false
+var chest_opened: = false

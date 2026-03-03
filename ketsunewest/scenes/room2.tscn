@@ -44,6 +44,12 @@ size = Vector2(109, 65)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5wf3f"]
 size = Vector2(193, 28)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwq2r"]
+size = Vector2(52, 294.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oibp2"]
+size = Vector2(63.5, 280)
+
 [node name="room2" type="Node2D" unique_id=1574053567]
 position = Vector2(-873, -528)
 script = ExtResource("1_d3uvb")
@@ -146,5 +152,17 @@ position = Vector2(1576, 413)
 
 [node name="camerapoint" type="Marker2D" parent="." unique_id=1426270927]
 position = Vector2(886, 494)
+
+[node name="nobackwall2" type="StaticBody2D" parent="." unique_id=1208222622]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nobackwall2" unique_id=262764654]
+position = Vector2(1879, 804.75)
+shape = SubResource("RectangleShape2D_dwq2r")
+
+[node name="nobackwall" type="StaticBody2D" parent="." unique_id=856192047]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="nobackwall" unique_id=1817417596]
+position = Vector2(-133.75, 45)
+shape = SubResource("RectangleShape2D_oibp2")
 
 [connection signal="body_entered" from="playerdetector" to="." method="_on_playerdetector_body_entered"]

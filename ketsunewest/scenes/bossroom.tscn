@@ -2,8 +2,6 @@
 
 [ext_resource type="Script" uid="uid://gla607mdlhcb" path="res://scenes/bossroom.gd" id="1_3m531"]
 [ext_resource type="Texture2D" uid="uid://5pqrak6yx4so" path="res://tiles/map/bossroom.png" id="1_p0u1f"]
-[ext_resource type="Script" uid="uid://c17oys8wt172e" path="res://scenes/trigger.gd" id="2_blb1r"]
-[ext_resource type="Script" uid="uid://4cjg7f6wawsf" path="res://scenes/gagte.gd" id="2_jqod1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0u1f"]
 size = Vector2(2579, 139)
@@ -102,7 +100,6 @@ shape = SubResource("RectangleShape2D_a4e2p")
 [node name="trigger" type="Area2D" parent="." unique_id=1436680533]
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("2_blb1r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="trigger" unique_id=1253729314]
 position = Vector2(2.5, 73)
@@ -112,8 +109,7 @@ debug_color = Color(0.77257466, 0.41114387, 0.45106393, 0.41960785)
 [node name="gagte" type="StaticBody2D" parent="." unique_id=308174155]
 position = Vector2(-1218.75, 25)
 collision_layer = 0
-collision_mask = 0
-script = ExtResource("2_jqod1")
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="gagte" unique_id=615307282]
 shape = SubResource("RectangleShape2D_csjr4")

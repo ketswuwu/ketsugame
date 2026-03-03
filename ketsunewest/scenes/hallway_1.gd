@@ -1,5 +1,5 @@
 extends Node2D
-
+@export var room_id: StringName = &"room_02"
 @onready var camerapoint: Marker2D = $camerapoint
 
 # -----------------------------------------
@@ -35,6 +35,8 @@ var started: bool = false
 var total_spawned: int = 0
 var alive_in_wave: int = 0
 var spawning_next_wave: bool = false
+var finished: bool = false
+var spawned_enemies: Array[Node] = []
 
 # For cycling through the scenes list inside the current wave
 var wave_spawn_index: int = 0
@@ -46,15 +48,19 @@ func _ready() -> void:
 
 	playerdetector.body_entered.connect(_on_playerdetector_body_entered)
 
+	if Respawn.is_room_completed(room_id):
+		finished = true
+		started = true
+		playerdetector.monitoring = false
 
 func _on_playerdetector_body_entered(body: Node) -> void:
-	if started:
+	if finished or started:
 		return
 	if not body.is_in_group("player"):
 		return
 
 	started = true
-
+	Respawn.enter_room(self, room_id)
 	# Lock camera to this room
 	var cam := _get_camera(body)
 	if cam and cam.has_method("lock_to_room"):
@@ -187,6 +193,9 @@ func _spawn_wave() -> void:
 		var enemy := scene_to_spawn.instantiate()
 		add_child(enemy)
 		enemy.global_position = sp.global_position
+		
+		spawned_enemies.append(enemy)
+		enemy.add_to_group("room_enemy")
 
 		# tiny camera shake per spawn
 		var player := get_tree().current_scene.find_child("Player", true, false)
@@ -224,6 +233,8 @@ func _on_enemy_died(_enemy) -> void:
 
 
 func _finish_room() -> void:
+	finished = true
+	Respawn.mark_room_completed(room_id)
 	playerdetector.monitoring = false
 
 	var player := get_tree().current_scene.find_child("Player", true, false)
@@ -235,3 +246,39 @@ func _finish_room() -> void:
 
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
+		
+
+func reset_room() -> void:
+	# ✅ unlock camera because death respawn should return camera to player
+	var player := get_tree().current_scene.find_child("Player", true, false)
+	var cam := _get_camera(player)
+	if cam and cam.has_method("unlock_room"):
+		cam.unlock_room()
+
+	# (optional) also snap the lock point back just in case
+	if cam and "room_lock_position" in cam:
+		cam.room_lock_position = Vector2.ZERO
+
+	for e in spawned_enemies:
+		if is_instance_valid(e):
+			e.queue_free()
+	spawned_enemies.clear()
+
+	# Reset counters
+	started = false
+	finished = false
+	total_spawned = 0
+	alive_in_wave = 0
+	spawning_next_wave = false
+	wave_spawn_index = 0
+
+	# Reopen gates visually + physically
+	_set_gate_layer(gate1, 0)
+	_set_gate_layer(gate2, 0)
+
+	if is_instance_valid(gate1_anim):
+		gate1_anim.play("gate_down")
+	if is_instance_valid(gate2_anim):
+		gate2_anim.play("gate_down")
+
+	playerdetector.monitoring = true

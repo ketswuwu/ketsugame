@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://gla607mdlhcb" path="res://scenes/bossroom.gd" id="1_3m531"]
 [ext_resource type="Texture2D" uid="uid://5pqrak6yx4so" path="res://tiles/map/bossroom.png" id="1_p0u1f"]
+[ext_resource type="AudioStream" uid="uid://kcsdwm7creyf" path="res://audio/Grimm (Hollow Knight The Grimm Troupe).mp3" id="3_blb1r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0u1f"]
 size = Vector2(2579, 139)
@@ -113,6 +114,10 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="gagte" unique_id=615307282]
 shape = SubResource("RectangleShape2D_csjr4")
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=397586421]
+stream = ExtResource("3_blb1r")
+volume_db = -61.815
 
 [node name="PillarHitbox" type="Area2D" parent="." unique_id=507756387 groups=["pillar"]]
 

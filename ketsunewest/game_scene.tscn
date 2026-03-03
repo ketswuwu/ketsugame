@@ -304,7 +304,7 @@ shape = SubResource("RectangleShape2D_nuflt")
 [node name="Actionable" parent="Actionable4" unique_id=1034492142 instance=ExtResource("4_kdryc")]
 
 [node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
-position = Vector2(21, 23)
+position = Vector2(-29, 76)
 motion_mode = 1
 move_speed = 400.0
 

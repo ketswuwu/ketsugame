@@ -14,7 +14,7 @@ extends Node2D
 # --- MUSIC SETTINGS ---
 @export var music_fade_in_time: float = 1.0
 @export var music_fade_out_time: float = 1.0
-@export var music_volume_db: float = -18  # target volume when fully playing
+@export var music_volume_db: float = -0.5  # target volume when fully playing
 @export var music_silent_db: float = -60.0 # "silent" volume
 
 @onready var trigger: Area2D = $trigger
@@ -41,6 +41,7 @@ func _ready() -> void:
 
 	# --- MUSIC INIT ---
 	if boss_music:
+		boss_music.add_to_group("override_music")
 		boss_music.autoplay = false
 		boss_music.volume_db = music_silent_db
 

@@ -18,7 +18,7 @@ animations = [{
 size_flags_vertical = 8
 script = ExtResource("1_jt0eh")
 
-[node name="AnimatedSprite2d" type="AnimatedSprite2D" parent="." unique_id=752682389]
+[node name="Portrait" type="AnimatedSprite2D" parent="." unique_id=752682389]
 position = Vector2(-12.000008, -1.9999924)
 scale = Vector2(0.9186186, 0.91861844)
 sprite_frames = SubResource("SpriteFrames_jt0eh")

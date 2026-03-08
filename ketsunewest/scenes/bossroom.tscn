@@ -117,7 +117,8 @@ shape = SubResource("RectangleShape2D_csjr4")
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=397586421]
 stream = ExtResource("3_blb1r")
-volume_db = -61.815
+volume_db = 2.957
+bus = &"Music"
 
 [node name="PillarHitbox" type="Area2D" parent="." unique_id=507756387 groups=["pillar"]]
 

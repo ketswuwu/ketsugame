@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://psn5q1bqgusr" path="res://scenes/main_menu.gd" id="1_l6cm7"]
 [ext_resource type="AudioStream" uid="uid://bgontojkulhnc" path="res://audio/startsound.mp3" id="2_ekxnf"]
+[ext_resource type="Texture2D" uid="uid://cp5eg6pnwvjxs" path="res://sprites/logo.png" id="3_8ln24"]
 [ext_resource type="Texture2D" uid="uid://dgtp5knhwof0n" path="res://sprites/default/ketsu wallpaper.png" id="3_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://bo21j61w6y7w4" path="res://sprites/button.png" id="3_wu84c"]
 
@@ -41,10 +42,16 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tbmy8"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa1go"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wu84c"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jk1qb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dd4i"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ln24"]
@@ -55,6 +62,9 @@ bg_color = Color(0.2901961, 0.1254902, 0.2509804, 0)
 corner_radius_top_left = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lgwnu"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtw2f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -78,6 +88,11 @@ layer = -1
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer" unique_id=731961560]
 position = Vector2(957, 538)
 texture = ExtResource("3_bqqt6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer" unique_id=906626452]
+position = Vector2(301, 135.99998)
+scale = Vector2(0.5060241, 0.5060241)
+texture = ExtResource("3_8ln24")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1871403455]
 layout_mode = 1
@@ -107,6 +122,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_tbmy8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_oa1go")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wu84c")
 text = "Start Game"
 
@@ -115,6 +131,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_jk1qb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5dd4i")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8ln24")
 text = "Settings"
 
@@ -123,6 +140,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_ekxnf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_lgwnu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_rtw2f")
 text = "Exit
 "

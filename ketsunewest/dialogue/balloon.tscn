@@ -55,6 +55,16 @@ process_mode = 3
 layer = 100
 script = ExtResource("1_36de5")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=555365074]
+
+[node name="Dimmer" type="ColorRect" parent="CanvasLayer" unique_id=354682671]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="EmotesPanel" parent="." unique_id=1355411091 instance=ExtResource("2_0hx7h")]
 offset_left = 341.0
 offset_top = 738.0
@@ -181,6 +191,7 @@ stream = ExtResource("6_267us")
 
 [node name="Talksoundfinal" type="AudioStreamPlayer" parent="." unique_id=2051242637]
 stream = ExtResource("7_af48w")
+bus = &"SFX"
 
 [connection signal="gui_input" from="Balloon" to="." method="_on_balloon_gui_input"]
 [connection signal="spoke" from="Balloon/Panel/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/DialogueLabel" to="." method="_on_dialogue_label_spoke"]

@@ -3,6 +3,18 @@ extends Node2D
 @onready var camerapoint: Marker2D = $camerapoint
 
 # -----------------------------------------
+# ROOM MUSIC
+# -----------------------------------------
+@export var music_fade_in_time: float = 1.6
+@export var music_fade_out_time: float = 1.6
+@export var music_volume_db: float = 16.0
+@export var music_silent_db: float = -60.0
+
+@onready var room_music: AudioStreamPlayer = $Music
+var _music_tween: Tween
+var _music_should_play := false
+
+# -----------------------------------------
 # ENEMIES (mixed waves)
 # -----------------------------------------
 @export var enemy_scene: PackedScene  # fallback if a wave has no scenes
@@ -48,10 +60,67 @@ func _ready() -> void:
 
 	playerdetector.body_entered.connect(_on_playerdetector_body_entered)
 
+	# --- MUSIC INIT ---
+	if room_music:
+		room_music.autoplay = false
+		room_music.volume_db = music_silent_db
+		room_music.add_to_group("override_music") # ✅ important for your global override system
+
+		# force looping if possible
+		if room_music.stream and room_music.stream.has_method("set_loop"):
+			room_music.stream.set_loop(true)
+		elif room_music.stream and "loop" in room_music.stream:
+			room_music.stream.loop = true
+
 	if Respawn.is_room_completed(room_id):
 		finished = true
 		started = true
 		playerdetector.monitoring = false
+
+
+func _process(_delta: float) -> void:
+	if _music_should_play:
+		_music_fade_in()
+	else:
+		_music_fade_out()
+
+
+# -----------------------------------------
+# MUSIC helpers
+# -----------------------------------------
+func _kill_music_tween() -> void:
+	if _music_tween and _music_tween.is_valid():
+		_music_tween.kill()
+	_music_tween = null
+
+func _music_fade_in() -> void:
+	if not room_music or room_music.stream == null:
+		return
+
+	# start from beginning when entering (prevents "resume")
+	if not room_music.playing:
+		room_music.stop()
+		room_music.volume_db = music_silent_db
+		room_music.play(0.0)
+
+	_kill_music_tween()
+	_music_tween = create_tween()
+	_music_tween.tween_property(room_music, "volume_db", music_volume_db, music_fade_in_time)
+
+func _music_fade_out() -> void:
+	if not room_music:
+		return
+	if not room_music.playing:
+		return
+
+	_kill_music_tween()
+	_music_tween = create_tween()
+	_music_tween.tween_property(room_music, "volume_db", music_silent_db, music_fade_out_time)
+	_music_tween.tween_callback(func():
+		if room_music:
+			room_music.stop()
+	)
+
 
 func _on_playerdetector_body_entered(body: Node) -> void:
 	if finished or started:
@@ -61,6 +130,10 @@ func _on_playerdetector_body_entered(body: Node) -> void:
 
 	started = true
 	Respawn.enter_room(self, room_id)
+
+	# ✅ start room music on enter
+	_music_should_play = true
+
 	# Lock camera to this room
 	var cam := _get_camera(body)
 	if cam and cam.has_method("lock_to_room"):
@@ -133,7 +206,6 @@ func _set_gate_layer(g: StaticBody2D, layer: int) -> void:
 # -----------------------------------------
 # Mixed-wave helpers
 # -----------------------------------------
-
 func _get_current_wave_index() -> int:
 	if wave_size <= 0:
 		return 0
@@ -149,11 +221,9 @@ func _get_wave_scenes(wave_index: int) -> Array[PackedScene]:
 	return wc.scenes
 
 func _pick_scene_for_spawn(wave_scenes: Array[PackedScene]) -> PackedScene:
-	# If wave has no scenes, fallback
 	if wave_scenes.size() == 0:
 		return enemy_scene
 
-	# Remove nulls safely (in case you left empty slots)
 	var usable: Array[PackedScene] = []
 	for s in wave_scenes:
 		if s != null:
@@ -165,7 +235,6 @@ func _pick_scene_for_spawn(wave_scenes: Array[PackedScene]) -> PackedScene:
 	if wave_pick_mode == "random":
 		return usable[randi_range(0, usable.size() - 1)]
 
-	# default: cycle
 	var picked := usable[wave_spawn_index % usable.size()]
 	wave_spawn_index += 1
 	return picked
@@ -193,11 +262,10 @@ func _spawn_wave() -> void:
 		var enemy := scene_to_spawn.instantiate()
 		add_child(enemy)
 		enemy.global_position = sp.global_position
-		
+
 		spawned_enemies.append(enemy)
 		enemy.add_to_group("room_enemy")
 
-		# tiny camera shake per spawn
 		var player := get_tree().current_scene.find_child("Player", true, false)
 		var cam := _get_camera(player)
 		if cam:
@@ -237,6 +305,10 @@ func _finish_room() -> void:
 	Respawn.mark_room_completed(room_id)
 	playerdetector.monitoring = false
 
+	# ✅ stop room music on finish
+	_music_should_play = false
+	_music_fade_out()
+
 	var player := get_tree().current_scene.find_child("Player", true, false)
 	var cam := _get_camera(player)
 	if cam and cam.has_method("victory_pan"):
@@ -246,16 +318,18 @@ func _finish_room() -> void:
 
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
-		
+
 
 func reset_room() -> void:
-	# ✅ unlock camera because death respawn should return camera to player
+	# ✅ stop room music on death/reset
+	_music_should_play = false
+	_music_fade_out()
+
 	var player := get_tree().current_scene.find_child("Player", true, false)
 	var cam := _get_camera(player)
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
 
-	# (optional) also snap the lock point back just in case
 	if cam and "room_lock_position" in cam:
 		cam.room_lock_position = Vector2.ZERO
 
@@ -264,7 +338,6 @@ func reset_room() -> void:
 			e.queue_free()
 	spawned_enemies.clear()
 
-	# Reset counters
 	started = false
 	finished = false
 	total_spawned = 0
@@ -272,7 +345,6 @@ func reset_room() -> void:
 	spawning_next_wave = false
 	wave_spawn_index = 0
 
-	# Reopen gates visually + physically
 	_set_gate_layer(gate1, 0)
 	_set_gate_layer(gate2, 0)
 

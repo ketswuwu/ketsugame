@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://jcup44ax7015" path="res://tiles/map/room2.png" id="1_klc7l"]
 [ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="2_dbehi"]
 [ext_resource type="PackedScene" uid="uid://c65x1js4ybh4" path="res://scenes/door.tscn" id="3_s5pwh"]
+[ext_resource type="Resource" uid="uid://b2jnk0qqglch1" path="res://dialogue/encounter.dialogue" id="3_yfplu"]
+[ext_resource type="AudioStream" uid="uid://b38lsn7xnswvv" path="res://audio/Hollow Knight OST - Waterways (Action).mp3" id="6_duage"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d3uvb"]
 size = Vector2(2091.5, 65)
@@ -54,6 +56,8 @@ size = Vector2(63.5, 280)
 position = Vector2(-873, -528)
 script = ExtResource("1_d3uvb")
 enemy_scene = ExtResource("2_dbehi")
+finish_dialogue = ExtResource("3_yfplu")
+finish_dialogue_start = "EndTutorial"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1020616595]
 position = Vector2(903, 451)
@@ -158,6 +162,11 @@ position = Vector2(886, 494)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="nobackwall2" unique_id=262764654]
 position = Vector2(1879, 804.75)
 shape = SubResource("RectangleShape2D_dwq2r")
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=2055008609]
+stream = ExtResource("6_duage")
+volume_db = 24.0
+bus = &"Music"
 
 [node name="nobackwall" type="StaticBody2D" parent="." unique_id=856192047]
 

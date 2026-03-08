@@ -35,6 +35,9 @@ func _on_dialogue_ended(_resource):
 	get_tree().change_scene_to_file("res://game_scene.tscn")
 
 func _skip_intro() -> void:
+	# ✅ Ensure the game knows the cutscene ended
+	State.in_cutscene = false
+
 	if Engine.has_singleton("DialogueManager"):
 		if DialogueManager.has_method("stop"):
 			DialogueManager.stop()

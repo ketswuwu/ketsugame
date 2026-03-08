@@ -12,11 +12,11 @@ func _ready():
 	ShopMusic.set_shop_music(
 		preload("res://audio/Shoplifting.mp3")
 	)
-	MainMusic.set_main_music(
-		preload("res://audio/Dead Cells - Prisoner's Awakening (Official Soundtrack).mp3")
-	)
+		# ✅ Main/Exploration music (always wants to play)
+	MusicRouter.set_main_music(preload("res://audio/Hollow Knight OST - Waterways.mp3"))
+	MusicRouter.play_main(true)
 	
-
+	
 
 func _process(delta: float) -> void:
 	pass

@@ -168,6 +168,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("15_flost")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_up27q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ax5fu")
 }],
 "loop": false,
 "name": &"stunned",
@@ -186,12 +192,12 @@ height = 72.0
 radius = 680.07355
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_md0e3"]
-radius = 16.0
-height = 68.0
+radius = 43.0
+height = 86.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jws0"]
-radius = 19.0
-height = 74.0
+radius = 45.0
+height = 90.0
 
 [node name="enemy" type="CharacterBody2D" unique_id=1381143129 groups=["boss", "enemy"]]
 collision_layer = 16
@@ -200,17 +206,19 @@ script = ExtResource("1_ncg74")
 
 [node name="#cartoonDizzySoundEffect" type="AudioStreamPlayer" parent="." unique_id=1373238905]
 stream = ExtResource("2_6mxg7")
-volume_db = -7.898
+volume_db = 6.527
+bus = &"SFX"
 
 [node name="ScreamWithEchoSoundEffect" type="AudioStreamPlayer" parent="." unique_id=1504628176]
 stream = ExtResource("3_1ag40")
-volume_db = -18.246
+volume_db = 5.052
+bus = &"SFX"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2080500970]
 position = Vector2(1.9999995, -2.9999962)
 scale = Vector2(0.34046963, 0.34046966)
 sprite_frames = SubResource("SpriteFrames_mfsj4")
-animation = &"landed"
+animation = &"idle"
 
 [node name="WandererTimer" type="Timer" parent="." unique_id=498703974]
 

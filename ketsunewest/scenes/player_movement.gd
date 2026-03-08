@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const BULLET_SCENE := preload("res://scenes/bullet.tscn")
-@export var health_potion_heal_amount := 3
+@export var health_potion_heal_amount := 8
 @onready var bite_sound: AudioStreamPlayer = $Bite
 @onready var swing: AudioStreamPlayer = $Swing
 @onready var crossbow_stretch: AudioStreamPlayer = $CrossbowStretch
@@ -26,7 +26,7 @@ var _last_aim_anim_dir := ""
 @export var hit_pitch_min := 0.9
 @export var hit_pitch_max := 1.15
 
-@export var hurt_lock_time := 0.5
+@export var hurt_lock_time := 0.25
 @export var knockback_multiplier_on_hit := 1.35
 @export var aim_down_move_multiplier := 0.55 # 55% speed while aiming down
 var is_hit_locked := false
@@ -92,10 +92,11 @@ var character_direction: Vector2 = Vector2.ZERO
 @onready var bite_lunge_timer: Timer = $BiteLungeTimer
 @onready var blood_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/BloodBar")
 @onready var hp_bar: ProgressBar = get_tree().get_current_scene().get_node("UI/HPBar")
+@onready var portrait: AnimatedSprite2D = get_tree().get_current_scene().get_node("UI/portrait")
 
 @export var bite_cost := 50
 @export var bite_damage := 15
-@export var bite_heal := 2
+@export var bite_heal := 5
 @export var bite_duration := 0.35
 
 var normal_collision_layer
@@ -813,6 +814,14 @@ func update_hp_ui():
 	if hp_bar:
 		hp_bar.max_value = Playerdata.stats["max_health"]
 		hp_bar.value = current_health
+
+	if portrait:
+		if current_health <= 3:
+			if portrait.animation != "bloody":
+				portrait.play("bloody")
+		else:
+			if portrait.animation != "normal":
+				portrait.play("normal")
 
 
 

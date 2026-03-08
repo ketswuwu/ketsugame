@@ -16,6 +16,7 @@ func _ready():
 	music.volume_db = -80
 	music.autoplay = false
 
+	music.add_to_group("override_music")
 
 func set_shop_music(stream: AudioStream):
 	music.stream = stream

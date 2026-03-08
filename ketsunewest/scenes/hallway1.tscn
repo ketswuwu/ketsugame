@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bsi38de28x653" path="res://WaveConfig.gd" id="3_v2fgs"]
 [ext_resource type="Texture2D" uid="uid://cdkmad806cttr" path="res://sprites/default/test/gate3.png" id="4_4u0yh"]
 [ext_resource type="Texture2D" uid="uid://caqtabkk3loxw" path="res://sprites/default/test/gate1.png" id="5_gdbsj"]
+[ext_resource type="AudioStream" uid="uid://b38lsn7xnswvv" path="res://audio/Hollow Knight OST - Waterways (Action).mp3" id="5_vocw4"]
 [ext_resource type="AudioStream" uid="uid://c21j2u84lrs1w" path="res://audio/soundreality-metal-door-slam-172172.mp3" id="7_gdbsj"]
 
 [sub_resource type="Resource" id="Resource_vocw4"]
@@ -132,6 +133,9 @@ size = Vector2(2144, 496)
 script = ExtResource("1_4u0yh")
 enemy_scene = ExtResource("2_gdbsj")
 waves = Array[ExtResource("3_v2fgs")]([SubResource("Resource_vocw4"), SubResource("Resource_88sjj"), SubResource("Resource_50jlw")])
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1709479713]
+stream = ExtResource("5_vocw4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1928251793]
 texture = ExtResource("1_jsa5y")

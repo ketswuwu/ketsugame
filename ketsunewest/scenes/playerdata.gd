@@ -1,8 +1,8 @@
 extends Node
 
 var stats = {
-	"max_health": 5,
-	"health": 5,
+	"max_health": 10,
+	"health": 10,
 	"attack": 5
 }
 

@@ -71,22 +71,19 @@ func _start_alert():
 	is_chasing = false
 	velocity = Vector2.ZERO
 
-	# ▶ Play notice animation here
 	if $AnimationPlayer:
 		$AnimationPlayer.play("notice")
 
 	await get_tree().create_timer(alert_duration).timeout
 
-	# Player might have left during alert
 	if target:
 		is_chasing = true
-		Combatmusicmanager.enemy_started_combat()
 
 	is_alerted = false
 func _on_detection_exited(body):
 	if body == target:
 		target = null
-		stop_combat()
+		is_chasing = false
 func take_damage(amount: int, source_position: Vector2 = global_position):
 	if is_hurt:
 		return
@@ -119,11 +116,7 @@ func take_damage(amount: int, source_position: Vector2 = global_position):
 func die():
 	print("[Enemy] Died!")
 
-	# Tell the room we died (so it can spawn next wave)
 	died.emit(self)
-
-	if is_chasing:
-		Combatmusicmanager.enemy_stopped_combat()
 
 	is_chasing = false
 	is_hurt = false
@@ -135,7 +128,6 @@ func die():
 
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
-	# 🔻 When player enters the enemy’s hit area
 func _on_body_entered(body):
 	if body.is_in_group("player"):
 		print("[Enemy] Player entered range.")
@@ -171,11 +163,7 @@ func _on_DamageTimer_timeout():
 	can_damage = true
 	if player_in_range:
 		_deal_damage()
-func stop_combat():
-	if is_chasing:
-		is_chasing = false
-		Combatmusicmanager.enemy_stopped_combat()
-		
+
 func _physics_process(delta):
 	if is_on_wall():
 		var collision = get_last_slide_collision()

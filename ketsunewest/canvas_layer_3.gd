@@ -1,62 +1,76 @@
 extends CanvasLayer
 
 @onready var panel := $TextureRect
+
 @export var dialogue_resource: DialogueResource
 @export var dialogue_start: String = "start"
+@export var end_scene_path: String = "res://scenes/endscreen.tscn"
+
 var is_transitioning := false
+var boss_dialogue_running := false
 
-func _ready():
+func _ready() -> void:
 	panel.modulate.a = 0.0
+	visible = false
 
-func _process(_delta):
+	# Listen for dialogue finishing
+	if not DialogueManager.dialogue_ended.is_connected(_on_dialogue_ended):
+		DialogueManager.dialogue_ended.connect(_on_dialogue_ended)
+
+func _process(_delta: float) -> void:
 	if is_transitioning:
 		return
 
-	if State.boss == "dead" and not visible:
+	# Only open once when boss is dead
+	if ("boss" in State) and State.boss == "dead" and not boss_dialogue_running and not visible:
 		open_boss_death()
-	elif State.boss != "dead" and visible:
-		close_boss_death()
-
 
 func open_boss_death() -> void:
 	is_transitioning = true
 
-	# 1. Fade world to black
-	await Fade.fade_out(0.4)
+	# Fade to black
+	await Fade.fade_out(0.6)
 
-	# 2. Show boss-death panel but invisible
+	# Show boss-death overlay (optional)
 	visible = true
 	panel.modulate.a = 0.0
-
-	# 3. Fade panel in
 	var t := create_tween()
-	t.tween_property(panel, "modulate:a", 1.0, 0.25)
+	t.tween_property(panel, "modulate:a", 1.0, 0.35)
 	await t.finished
 
-	# 4. Fade world back in
-	await Fade.fade_in(0.4)
+	# Fade world back in (still showing overlay)
+	await Fade.fade_in(0.6)
 
-	# 5. Show DialogueManager for boss death dialogue
-	# Make sure you have a DialogueResource for the boss death lines
+	# Start boss death dialogue
+	boss_dialogue_running = true
 	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start)
 
 	is_transitioning = false
 
-func close_boss_death() -> void:
+func _on_dialogue_ended(_resource: DialogueResource) -> void:
+	# Ignore other dialogues; only react to the boss-death one we started
+	if not boss_dialogue_running:
+		return
+
+	# Optional extra safety: only react if it ended from THIS resource
+	if _resource != dialogue_resource:
+		return
+
+	boss_dialogue_running = false
+	_go_to_endscreen()
+
+func _go_to_endscreen() -> void:
+	if is_transitioning:
+		return
 	is_transitioning = true
 
-	# 1. Fade world to black
-	await Fade.fade_out(0.4)
+	# Fade out to black
+	await Fade.fade_out(0.8)
 
-	# 2. Fade shop out while black
-	var t := create_tween()
-	t.tween_property(panel, "modulate:a", 0.0, 0.2)
-	await t.finished
+	# Switch scene while black
+	get_tree().change_scene_to_file(end_scene_path)
 
-	visible = false
-
-	# 3. Fade world back in
-	await Fade.fade_in(0.4)
+	# Fade in on the endscreen
+	await Fade.fade_in(0.8)
 
 	is_transitioning = false
-	

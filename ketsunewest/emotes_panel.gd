@@ -1,6 +1,6 @@
 extends Panel
 
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2d
+@onready var animated_sprite_2d: AnimatedSprite2D = $Portrait
 
 var talk: Array = ["talk"]
 

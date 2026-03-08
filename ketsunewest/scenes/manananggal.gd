@@ -23,11 +23,11 @@ var _spawn_rot: float
 
 # Phase 2 dash + tired landing
 @export var phase2_dash_every: float = 1.6
-@export var phase2_fly_before_tired: float = 20.0
+@export var phase2_fly_before_tired: float = 15.0
 @export var tired_duration: float = 2.0
 
 # Boss -> player contact damage (Area2D based)
-@export var contact_damage: int = 1
+@export var contact_damage: int = 2
 @export var contact_damage_cooldown: float = 0.5
 
 # Anim names

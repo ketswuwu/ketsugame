@@ -1,6 +1,6 @@
 extends Camera2D
 # --- AIM DOWN CINEMATIC OVERRIDE ---
-@export var aim_down_zoom := Vector2(1.5, 1.5) # slightly more zoom than lock_zoom
+@export var aim_down_zoom := Vector2(1.23, 1.23) # slightly more zoom than lock_zoom
 @export var aim_down_zoom_in_time := 0.55
 @export var aim_down_zoom_out_time := 0.40
 @export var aim_zoom_trans := Tween.TRANS_SINE

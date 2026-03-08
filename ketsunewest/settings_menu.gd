@@ -1,23 +1,27 @@
 extends Control
 
+@onready var music_slider: HSlider = $VBoxContainer/MusicSlider
+@onready var sfx_slider: HSlider = $VBoxContainer/SfxSlider
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	# Make sliders match saved settings
+	music_slider.value = AudioSettings.music_db
+	sfx_slider.value = AudioSettings.sfx_db
 
+	music_slider.value_changed.connect(_on_music_changed)
+	sfx_slider.value_changed.connect(_on_sfx_changed)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_music_changed(v: float) -> void:
+	AudioSettings.music_db = v
+	AudioSettings.apply()
+	AudioSettings.save_settings()
 
+func _on_sfx_changed(v: float) -> void:
+	AudioSettings.sfx_db = v
+	AudioSettings.apply()
+	AudioSettings.save_settings()
 
 func _on_settings_back_pressed() -> void:
+	# optional extra save (already saving on change)
+	AudioSettings.save_settings()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
-
-
-func _on_sound_pressed() -> void:
-	pass # Replace with function body.
-
-
-func _on_controls_pressed() -> void:
-	pass # Replace with function body.

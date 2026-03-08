@@ -807,15 +807,17 @@ position = Vector2(0, -41)
 
 [node name="Heal" type="AudioStreamPlayer" parent="." unique_id=1647924106]
 stream = ExtResource("113_tlhxf")
+bus = &"SFX"
 
 [node name="Hit" type="AudioStreamPlayer" parent="." unique_id=1789538776]
 stream = ExtResource("113_77pet")
-volume_db = -9.088
+volume_db = -2.246
 pitch_scale = 1.11
+bus = &"SFX"
 
 [node name="Bite" type="AudioStreamPlayer" parent="." unique_id=32877090]
 stream = ExtResource("113_e8m1u")
-volume_db = -13.684
+volume_db = -9.579
 bus = &"SFX"
 
 [node name="CrossbowStretch" type="AudioStreamPlayer" parent="." unique_id=34820283]
@@ -830,6 +832,7 @@ bus = &"SFX"
 
 [node name="Swing" type="AudioStreamPlayer" parent="." unique_id=1882710535]
 stream = ExtResource("115_5c21n")
+volume_db = 2.281
 bus = &"SFX"
 
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

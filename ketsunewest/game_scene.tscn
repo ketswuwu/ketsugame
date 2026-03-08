@@ -30,12 +30,16 @@
 [ext_resource type="Texture2D" uid="uid://dbv6ro7jbth8s" path="res://sprites/ui/bloodbar1.png" id="26_kyyqo"]
 [ext_resource type="Texture2D" uid="uid://bp2tn6bdvbtab" path="res://sprites/junshopkeep.png" id="27_5smy7"]
 [ext_resource type="Script" uid="uid://bogbcrs7f2p55" path="res://shopkeepsprite.gd" id="27_glbr4"]
+[ext_resource type="Texture2D" uid="uid://cjbxaqspyi26n" path="res://sprites/ui/bottom_left.png" id="27_ku8ms"]
 [ext_resource type="Texture2D" uid="uid://bbvhpw8myah2b" path="res://sprites/ui/HEALTHBAR.png" id="27_magc2"]
+[ext_resource type="Texture2D" uid="uid://4wpe0bijj7kk" path="res://sprites/ui/bloody_portrait.png" id="28_nvpg6"]
+[ext_resource type="Texture2D" uid="uid://cgxgtf86vuqqv" path="res://sprites/ui/portrait.png" id="29_h31d7"]
 [ext_resource type="PackedScene" uid="uid://bqcxhobdkpg2y" path="res://scenes/enemy - Copy.tscn" id="29_t06ws"]
 [ext_resource type="Script" uid="uid://bl7jjeqkb0y7c" path="res://bossbar.gd" id="30_l3lgf"]
 [ext_resource type="Texture2D" uid="uid://ww670652u5n1" path="res://sprites/default/note.png" id="30_r2sjb"]
 [ext_resource type="Script" uid="uid://bth4f2iv2weyd" path="res://canvas_layer_2.gd" id="34_1qokk"]
 [ext_resource type="Script" uid="uid://cvmdrkmucyc5d" path="res://cutscenetrigger.gd" id="34_7nf4l"]
+[ext_resource type="Texture2D" uid="uid://cdyl4gh7dub1u" path="res://sprites/ui/bossui.png" id="34_nvpg6"]
 [ext_resource type="Resource" uid="uid://cqe2hxgid78lx" path="res://dialogue/bossencounter.dialogue" id="35_cxwtw"]
 [ext_resource type="Texture2D" uid="uid://bie04tr466uye" path="res://sprites/cutscenes/end]/1.png" id="36_1hpar"]
 [ext_resource type="Texture2D" uid="uid://c337yt6cyf847" path="res://sprites/cutscenes/end]/2.png" id="36_1t5pe"]
@@ -44,6 +48,8 @@
 [ext_resource type="Script" uid="uid://c2rtg1buehmpt" path="res://exit.gd" id="40_e02u1"]
 [ext_resource type="Script" uid="uid://bysbx660vfdem" path="res://screen_fader.gd" id="43_t7ufo"]
 [ext_resource type="PackedScene" uid="uid://cbo8arb82t8va" path="res://pause_menu.tscn" id="44_i1igs"]
+[ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="45_dxisk"]
+[ext_resource type="PackedScene" uid="uid://dcroeci2yb12w" path="res://scenes/ranged_enemy.tscn" id="46_s3npr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
 size = Vector2(307.375, 76.75)
@@ -53,6 +59,25 @@ size = Vector2(83.5, 109.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f54l4"]
 size = Vector2(134, 133)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7yo80"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("28_nvpg6")
+}],
+"loop": true,
+"name": &"bloody",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_h31d7")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 5.0
+}]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jv0we"]
 bg_color = Color(0.10544015, 0.02207498, 0.03690363, 1)
@@ -95,6 +120,12 @@ bg_color = Color(0.084330924, 0, 0.005522677, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f54l4"]
 bg_color = Color(0.82121944, 0.20166239, 0.27884564, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h31d7"]
+bg_color = Color(0.18714619, 0.13168561, 0.25183004, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7yo80"]
+bg_color = Color(0.71, 0.34548578, 0.5792453, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxwtw"]
 size = Vector2(170, 198)
@@ -169,6 +200,10 @@ texture = ExtResource("1_jv0we")
 position = Vector2(205, 775)
 scale = Vector2(0.54, 0.54)
 
+[node name="hallway2" parent="hallway2" unique_id=484116056 instance=ExtResource("1_opqoc")]
+position = Vector2(-2053.7039, -18.518536)
+scale = Vector2(0.80755556, 1.413307)
+
 [node name="breakableroom" parent="." unique_id=1015314039 instance=ExtResource("2_bpcsf")]
 position = Vector2(-1707.0001, 749)
 scale = Vector2(0.54, 0.54)
@@ -219,10 +254,6 @@ scale = Vector2(0.54, 0.54)
 [node name="Node2D2" parent="." unique_id=883360044 instance=ExtResource("14_na8jj")]
 position = Vector2(-2167.9998, -99.99999)
 scale = Vector2(0.36, 0.36)
-
-[node name="Node2D" parent="." unique_id=331707044 instance=ExtResource("16_nuflt")]
-position = Vector2(-895, 757)
-scale = Vector2(0.6, 0.6)
 
 [node name="bottomleft" parent="." unique_id=208099556 instance=ExtResource("12_3d2pr")]
 position = Vector2(-2456, 582.00006)
@@ -304,7 +335,7 @@ shape = SubResource("RectangleShape2D_nuflt")
 [node name="Actionable" parent="Actionable4" unique_id=1034492142 instance=ExtResource("4_kdryc")]
 
 [node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
-position = Vector2(-29, 76)
+position = Vector2(-12, 82)
 motion_mode = 1
 move_speed = 400.0
 
@@ -321,6 +352,15 @@ target = NodePath("..")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=457656744]
 
+[node name="Sprite2D" type="Sprite2D" parent="UI" unique_id=1703517260]
+position = Vector2(960, 541)
+texture = ExtResource("27_ku8ms")
+
+[node name="portrait" type="AnimatedSprite2D" parent="UI" unique_id=1929436380]
+position = Vector2(214, 991)
+sprite_frames = SubResource("SpriteFrames_7yo80")
+animation = &"bloody"
+
 [node name="BloodBar" type="ProgressBar" parent="UI" unique_id=690133595]
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -334,14 +374,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_nuflt")
 fill_mode = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/BloodBar" unique_id=766312451]
-position = Vector2(17.721804, 381.4116)
+position = Vector2(17.721802, 385.4116)
 scale = Vector2(1.0876732, 0.9634536)
 sprite_frames = SubResource("SpriteFrames_magc2")
 animation = &"full"
 frame_progress = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI" unique_id=44386266]
-position = Vector2(452.00003, 1049)
+position = Vector2(644, 1049)
 rotation = -0.0022766762
 sprite_frames = SubResource("SpriteFrames_dtvpm")
 
@@ -349,10 +389,10 @@ sprite_frames = SubResource("SpriteFrames_dtvpm")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 172.0
-offset_top = -46.0
-offset_right = 761.0
-offset_bottom = -23.0
+offset_left = 363.0
+offset_top = -45.0
+offset_right = 952.0
+offset_bottom = -22.0
 grow_vertical = 0
 theme_override_styles/background = SubResource("StyleBoxFlat_if5p2")
 theme_override_styles/fill = SubResource("StyleBoxFlat_f54l4")
@@ -371,10 +411,17 @@ script = ExtResource("30_l3lgf")
 
 [node name="BossHealthBar" type="ProgressBar" parent="UI/BossHp" unique_id=2065000236]
 layout_mode = 0
-offset_left = -351.0
-offset_right = 336.0
-offset_bottom = 27.0
+offset_left = -538.0
+offset_top = 19.0
+offset_right = 514.0
+offset_bottom = 46.0
+theme_override_styles/background = SubResource("StyleBoxFlat_h31d7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7yo80")
 max_value = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/BossHp" unique_id=2101537101]
+position = Vector2(-12, 67)
+texture = ExtResource("34_nvpg6")
 
 [node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
 position = Vector2(-2723, -828)
@@ -397,21 +444,21 @@ offset_top = -279.0
 offset_right = 115.0
 offset_bottom = -230.0
 text = "To interact with objects.
-  Press SPACE or Enter"
+  Press SPACE or Enter or B"
 
 [node name="Label2" type="Label" parent="." unique_id=1586777675]
 offset_left = -64.0
 offset_top = -591.0
 offset_right = 92.0
 offset_bottom = -566.0
-text = " To attack, press Z"
+text = "Left click to attack."
 
 [node name="Label" type="Label" parent="." unique_id=1105870277]
 offset_left = 211.0
 offset_top = 321.0
 offset_right = 470.0
 offset_bottom = 448.0
-text = "Left, Right, Up and Down to move"
+text = "WASD to move"
 
 [node name="Label4" type="Label" parent="." unique_id=691936992]
 offset_left = -119.0
@@ -421,7 +468,7 @@ offset_bottom = -1069.0
 text = "Attacking builds up BLOOD for your
 COPRSE LUST.
 With enough blood  
-you can perform a BITE with X."
+you can perform a BITE with Q."
 horizontal_alignment = 1
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=16333938]
@@ -459,16 +506,17 @@ dialogue_resource = ExtResource("35_cxwtw")
 position = Vector2(-697, -1982)
 shape = SubResource("RectangleShape2D_cxwtw")
 
+[node name="enemy" parent="." unique_id=1381143129 instance=ExtResource("29_t06ws")]
+position = Vector2(-141, -1940)
+
 [node name="exit" type="Area2D" parent="." unique_id=589611670]
 collision_mask = 3
 script = ExtResource("40_e02u1")
+boss_node_path = NodePath("../enemy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="exit" unique_id=1556759956]
-position = Vector2(2380, -2827)
+position = Vector2(485, -1977)
 shape = SubResource("RectangleShape2D_20o3c")
-
-[node name="enemy" parent="exit" unique_id=1381143129 instance=ExtResource("29_t06ws")]
-position = Vector2(-141, -1940)
 
 [node name="CanvasLayer4" type="CanvasLayer" parent="." unique_id=1324683691]
 
@@ -490,5 +538,17 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
 [node name="PauseMenu" parent="." unique_id=325811125 instance=ExtResource("44_i1igs")]
+
+[node name="enemy3" parent="." unique_id=1621439373 instance=ExtResource("45_dxisk")]
+position = Vector2(-833, 817)
+scale = Vector2(0.99999857, 0.99999857)
+
+[node name="CharacterBody2D" parent="." unique_id=1840514285 instance=ExtResource("46_s3npr")]
+position = Vector2(1338, -64.99994)
+scale = Vector2(0.3301824, 0.3301824)
+
+[node name="CharacterBody2D2" parent="." unique_id=1658909884 instance=ExtResource("46_s3npr")]
+position = Vector2(1031.0001, 887.99994)
+scale = Vector2(0.3301824, 0.3301824)
 
 [connection signal="body_entered" from="exit" to="exit" method="_on_body_entered"]

@@ -7,7 +7,7 @@ extends Node2D
 # -----------------------------------------
 @export var music_fade_in_time: float = 1.6
 @export var music_fade_out_time: float = 1.6
-@export var music_volume_db: float = 16.0
+@export var music_volume_db: float = 0
 @export var music_silent_db: float = -60.0
 
 @onready var room_music: AudioStreamPlayer = $Music

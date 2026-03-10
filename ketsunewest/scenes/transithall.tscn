@@ -183,5 +183,5 @@ bus = &"SFX"
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=811607662]
 stream = ExtResource("10_50dnu")
-volume_db = 13.582
+volume_db = 11.757
 bus = &"Music"

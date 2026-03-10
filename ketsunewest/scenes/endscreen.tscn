@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cms4qwpni7cqg"]
 
-[ext_resource type="Texture2D" uid="uid://dgtp5knhwof0n" path="res://sprites/default/ketsu wallpaper.png" id="1_dt0yg"]
+[ext_resource type="Texture2D" uid="uid://b03ddbsqxogyr" path="res://sprites/cutscenes/end]/end.png" id="1_dt0yg"]
 
 [node name="Node2D" type="Node2D" unique_id=994829542]
 
@@ -12,9 +12,11 @@ offset_bottom = 40.0
 texture = ExtResource("1_dt0yg")
 
 [node name="Label" type="Label" parent="CanvasLayer" unique_id=355399887]
-offset_left = 87.0
-offset_top = 106.0
-offset_right = 1136.1329
-offset_bottom = 590.0
+offset_left = 304.0
+offset_top = 142.0
+offset_right = 1353.1329
+offset_bottom = 626.0
 theme_override_font_sizes/font_size = 80
-text = "To Be Continued..."
+text = "You Won!
+Thank You For Playing"
+horizontal_alignment = 1

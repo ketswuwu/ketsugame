@@ -1,19 +1,40 @@
 ~ start
 set State.in_cutscene = true
 set State.player_can_move = false
+set State.end = "cutscene1"
 Manananggal: AAAAAA
 Manananggal: How dare you... How could you have...
 Manananggal: This isn't right!
 Manananggal: You insol-
-Mayari: Tumahimik ka nga ang dami mong sinasabi. Patay ka na nga.
+Aya: Tumahimik ka nga ang dami mong sinasabi. Patay ka na nga.
 Manananggal: Napakabastos mong babae! Mamamatay ka lang naman!
 Manananggal: Papatayin ka ng mga naghihintay sa iyo. Walang silbi ang paghihirap mo.
 Manananggal: Balewala ka lang.
-Mayari: Pero buhay ako, di parang ikaw.
+Aya: Pero buhay ako, di parang ikaw.
 Manananggal: T-totoo n-naman...
 The Manananggal lays lifeless on the ground.
-You look onwards at the exit. This is going to be a long night.
+You look onwards at the exit. You see the steps going down.
+
+set State.end = "cutscene2"
+You go down the winding stairway, seeing blood on its steps. The thumps of your steps echoing through the tiny chamber.
+set State.end = "cutscene3"
+As you get down to the bottom you see... Aga. He seems to be inspecting a pillar. This is your chance.
+You approach with the binds you packed in your pouch. As you get closer and closer your heart races - until finally.
+set State.end = "cutscene4"
+Aya: There you are! I gotcha!
+Aga: W-what? H-how. How'd you catch up so quickly!?
+Aya: I can't be held down so easily. And that's no thanks to you or your transformation.
+Aya: And now I can take you out myself.
+set State.end = "cutscene5"
+You raise your balisong aiming it at Aga's chest.
+Aga: H-hold on! Wait! I can cure you! You don't want to be an Aswang right? If you keep me alive I can change it.
+You hold the balisong in the air. 
+Aya: Y-you can?
+Aga: Y-yes, just keep me alive. I can fix it I promise! Don't you trust me? 
+Aya: As much as I don't anymore, I kind of have to. Staying like this would be a nightmare.
+Aga: Y-yes. Just, give me time, I'll explain it all soon. Can we just sleep first? You don't even have to untie me.
+Aya: A-alright... but you're going to cure me in the morning.
+Aga: Y-yes, I swear on it.
 set State.in_cutscene = false
-set State.player_can_move = true
 set State.boss = ""
 => END

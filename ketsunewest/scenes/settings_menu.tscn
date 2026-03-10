@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dpd62iwd06awm" path="res://settings_menu.gd" id="1_05p07"]
 [ext_resource type="Texture2D" uid="uid://bo21j61w6y7w4" path="res://sprites/button.png" id="2_cr101"]
+[ext_resource type="Texture2D" uid="uid://cg8kowmyjt3hk" path="res://sprites/ui/control.png" id="3_wswnh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cr101"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -27,16 +28,13 @@ script = ExtResource("1_05p07")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1067938548]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -210.0
-offset_top = -77.0
-offset_right = 208.0
-offset_bottom = 235.0
-grow_horizontal = 2
+offset_left = 128.0
+offset_top = -150.0
+offset_right = 546.0
+offset_bottom = 189.0
 grow_vertical = 2
 theme_override_constants/separation = 30
 
@@ -80,5 +78,13 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_wswnh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_labj1")
 text = "Back
 "
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=933351444]
+layout_mode = 0
+offset_left = 755.0
+offset_top = 105.0
+offset_right = 1750.0
+offset_bottom = 967.0
+texture = ExtResource("3_wswnh")
 
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_settings_back_pressed"]

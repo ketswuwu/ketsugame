@@ -10,7 +10,7 @@ extends Node2D
 var _music_tween: Tween
 var _music_should_play := false
 
-@export var room_id: StringName = &"tutorial_room_01" # UNIQUE per room scene
+@export var room_id: StringName = &"tutorial_room_01"
 @export var enemy_scene: PackedScene
 @export var wave_delay: float = 0.6
 @export var spawn_stagger_delay: float = 0.12
@@ -25,7 +25,17 @@ var _music_should_play := false
 @onready var gate1: StaticBody2D = $nobackwall
 @onready var gate2: StaticBody2D = $nobackwall2
 
-# ✅ FINISH DIALOGUE SETTINGS
+# --- Instruction Popups ---
+@export var enter_room_instruction: Texture2D
+@export var wave1_instruction: Texture2D
+
+var intro_instruction_shown := false
+var wave1_instruction_shown := false
+
+# reference to popup
+var instruction_popup
+
+# --- Dialogue ---
 @export var finish_dialogue: DialogueResource 
 @export var finish_dialogue_start: String = "start"
 
@@ -38,17 +48,23 @@ var spawning_next_wave: bool = false
 var spawned_enemies: Array[Node] = []
 
 func _ready() -> void:
+
+	# find popup in the main scene
+	var scene := get_tree().current_scene
+	if scene:
+		instruction_popup = scene.get_node_or_null("InstructionPopup")
+
 	# --- MUSIC INIT ---
 	if music:
 		music.add_to_group("override_music")
 		music.autoplay = false
 		music.volume_db = music_silent_db
 
-	# force looping
 		if music.stream and music.stream.has_method("set_loop"):
 			music.stream.set_loop(true)
 		elif music.stream and "loop" in music.stream:
 			music.stream.loop = true
+
 	_set_gate_layer(gate1, 0)
 	_set_gate_layer(gate2, 0)
 	playerdetector.body_entered.connect(_on_playerdetector_body_entered)
@@ -58,6 +74,7 @@ func _ready() -> void:
 		started = true
 		playerdetector.monitoring = false
 
+
 func _set_gate_layer(g: StaticBody2D, layer: int) -> void:
 	if not is_instance_valid(g):
 		return
@@ -66,13 +83,16 @@ func _set_gate_layer(g: StaticBody2D, layer: int) -> void:
 	for s in shapes:
 		(s as CollisionShape2D).disabled = false
 
+
 func _open_gates() -> void:
 	_set_gate_layer(gate1, 0)
 	_set_gate_layer(gate2, 0)
 
+
 func _close_gates() -> void:
 	_set_gate_layer(gate1, 1)
 	_set_gate_layer(gate2, 1)
+
 
 func _on_playerdetector_body_entered(body: Node) -> void:
 	if finished or started:
@@ -88,10 +108,19 @@ func _on_playerdetector_body_entered(body: Node) -> void:
 	var cam := _get_camera(body)
 	if cam and cam.has_method("lock_to_room"):
 		cam.lock_to_room(camerapoint.global_position)
+
 	_music_should_play = true
-	
+
 	await _close_gates()
+
+	# --- ROOM ENTRY INSTRUCTION ---
+	if not intro_instruction_shown and instruction_popup:
+		intro_instruction_shown = true
+		await get_tree().create_timer(0.35).timeout
+		await instruction_popup.show_instruction(enter_room_instruction)
+
 	await _start_next_wave()
+
 
 func _start_next_wave() -> void:
 	if finished:
@@ -129,26 +158,29 @@ func _start_next_wave() -> void:
 		if enemy.has_signal("died"):
 			enemy.died.connect(_on_enemy_died)
 		else:
-			push_warning("Enemy scene has no 'died' signal. Waves won't progress!")
+			push_warning("Enemy scene has no 'died' signal.")
 
 		if i < points.size() - 1:
 			await get_tree().create_timer(spawn_stagger_delay).timeout
+
+
 func _process(_delta: float) -> void:
 	if _music_should_play:
 		_music_fade_in()
 	else:
 		_music_fade_out()
-		
+
+
 func _kill_music_tween() -> void:
 	if _music_tween and _music_tween.is_valid():
 		_music_tween.kill()
 	_music_tween = null
 
+
 func _music_fade_in() -> void:
 	if not music or music.stream == null:
 		return
 
-	# restart from beginning when starting
 	if not music.playing:
 		music.stop()
 		music.volume_db = music_silent_db
@@ -157,6 +189,7 @@ func _music_fade_in() -> void:
 	_kill_music_tween()
 	_music_tween = create_tween()
 	_music_tween.tween_property(music, "volume_db", music_volume_db, music_fade_in_time)
+
 
 func _music_fade_out() -> void:
 	if not music:
@@ -171,18 +204,28 @@ func _music_fade_out() -> void:
 		if music:
 			music.stop()
 	)
-		
+
+
 func _on_enemy_died(_enemy) -> void:
 	alive_in_wave = max(0, alive_in_wave - 1)
 
 	if alive_in_wave == 0:
+
+		# --- AFTER FIRST WAVE INSTRUCTION ---
+		if wave_index == 0 and not wave1_instruction_shown and instruction_popup:
+			wave1_instruction_shown = true
+			await get_tree().create_timer(0.35).timeout
+			await instruction_popup.show_instruction(wave1_instruction)
+
 		if spawning_next_wave:
 			return
-		spawning_next_wave = true
 
+		spawning_next_wave = true
 		wave_index += 1
+
 		await get_tree().create_timer(wave_delay).timeout
 		await _start_next_wave()
+
 
 func _finish_room() -> void:
 	finished = true
@@ -190,26 +233,29 @@ func _finish_room() -> void:
 
 	var player := get_tree().current_scene.find_child("Player", true, false)
 	var cam := _get_camera(player)
+
 	_music_should_play = false
 	_music_fade_out()
+
 	await _open_gates()
 
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
 
-	# ✅ START DIALOGUE AFTER FINISH
 	if finish_dialogue != null:
-		# optional: lock player movement during dialogue if you use this pattern
 		if "player_can_move" in State:
 			State.player_can_move = false
 
 		DialogueManager.show_dialogue_balloon(finish_dialogue, finish_dialogue_start)
 
+
 func reset_room() -> void:
 	_music_should_play = false
 	_music_fade_out()
+
 	var player := get_tree().current_scene.find_child("Player", true, false)
 	var cam := _get_camera(player)
+
 	if cam and cam.has_method("unlock_room"):
 		cam.unlock_room()
 
@@ -217,7 +263,7 @@ func reset_room() -> void:
 		if is_instance_valid(e):
 			e.queue_free()
 	spawned_enemies.clear()
-	
+
 	started = false
 	finished = false
 	wave_index = 0
@@ -225,6 +271,7 @@ func reset_room() -> void:
 	spawning_next_wave = false
 
 	playerdetector.monitoring = true
+
 
 func _get_camera(from_body: Node) -> Camera2D:
 	if from_body and from_body.has_node("Camera2D"):

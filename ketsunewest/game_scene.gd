@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var respawn_point: Marker2D = $Respawn1
-
+@onready var instruction_popup: CanvasLayer = $InstructionPopup
 
 func _ready():
 	Respawn.set_respawn(respawn_point.global_position)
@@ -16,6 +16,9 @@ func _ready():
 	MusicRouter.set_main_music(preload("res://audio/Hollow Knight OST - Waterways.mp3"))
 	MusicRouter.play_main(true)
 	
+	if not State.game_scene_instruction_shown:
+		State.game_scene_instruction_shown = true
+		instruction_popup.call_deferred("show_popup")
 	
 
 func _process(delta: float) -> void:

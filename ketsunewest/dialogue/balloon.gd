@@ -13,12 +13,16 @@ extends DialogueManagerExampleBalloon
 var _dim_tween: Tween
 var _emote_tween: Tween
 
+var _ui_node: Node = null
+
 
 func _ready() -> void:
-	# Hide main UI while in dialogue
-	var ui := get_tree().get_current_scene().get_node_or_null("UI")
-	if ui:
-		ui.visible = false
+	# Safely find UI in the current scene (if it exists)
+	var scene := get_tree().current_scene
+	if scene:
+		_ui_node = scene.get_node_or_null("UI")
+		if _ui_node:
+			_ui_node.visible = false
 
 	# start fully transparent
 	if dimmer:
@@ -55,10 +59,10 @@ func _notification(what: int) -> void:
 		if talksprite:
 			talksprite.modulate.a = 0.0
 
-		# Restore UI
-		var ui := get_tree().get_current_scene().get_node_or_null("UI")
-		if ui:
-			ui.visible = true
+		# Restore UI if it existed
+		if _ui_node:
+			_ui_node.visible = true
+
 
 func _kill_dim_tween() -> void:
 	if _dim_tween and _dim_tween.is_valid():

@@ -136,6 +136,7 @@ waves = Array[ExtResource("3_v2fgs")]([SubResource("Resource_vocw4"), SubResourc
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=1709479713]
 stream = ExtResource("5_vocw4")
+volume_db = -9.123
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1928251793]
 texture = ExtResource("1_jsa5y")

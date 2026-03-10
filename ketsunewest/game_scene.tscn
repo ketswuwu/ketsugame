@@ -46,10 +46,18 @@
 [ext_resource type="Script" uid="uid://dp3y6hhnl48xs" path="res://canvas_layer_3.gd" id="36_r2sjb"]
 [ext_resource type="Resource" uid="uid://c0aoqm2ckhwxs" path="res://dialogue/boss_death_dialogue_resource.dialogue" id="37_e02u1"]
 [ext_resource type="Script" uid="uid://c2rtg1buehmpt" path="res://exit.gd" id="40_e02u1"]
+[ext_resource type="Texture2D" uid="uid://cpir4g7n5dqh2" path="res://sprites/cutscenes/end]/3.png" id="43_b2ix6"]
 [ext_resource type="Script" uid="uid://bysbx660vfdem" path="res://screen_fader.gd" id="43_t7ufo"]
 [ext_resource type="PackedScene" uid="uid://cbo8arb82t8va" path="res://pause_menu.tscn" id="44_i1igs"]
+[ext_resource type="Texture2D" uid="uid://6ho31kv7v31r" path="res://sprites/cutscenes/end]/4.png" id="44_uwpek"]
+[ext_resource type="Texture2D" uid="uid://bqvm6ltqq53wu" path="res://sprites/cutscenes/end]/5.png" id="45_blr10"]
 [ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="45_dxisk"]
+[ext_resource type="Texture2D" uid="uid://bwn6gyg8cx8ke" path="res://sprites/cutscenes/end]/6.png" id="46_3q86u"]
 [ext_resource type="PackedScene" uid="uid://dcroeci2yb12w" path="res://scenes/ranged_enemy.tscn" id="46_s3npr"]
+[ext_resource type="Script" uid="uid://3hkbbwudsixe" path="res://instruction_popup.gd" id="51_7yo80"]
+[ext_resource type="Texture2D" uid="uid://d00ana2rv53nf" path="res://sprites/ui/instruction1.png" id="52_c68bw"]
+[ext_resource type="AudioStream" uid="uid://0spk5mornb1k" path="res://audio/MH - Menu Click 1 (MH3U).mp3" id="53_5yrq5"]
+[ext_resource type="AudioStream" uid="uid://bagj2kj2x5vnq" path="res://audio/MH - Menu Click 2 (MH3U).mp3" id="54_6wul5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nuflt"]
 size = Vector2(307.375, 76.75)
@@ -287,7 +295,7 @@ shape = SubResource("RectangleShape2D_nuflt")
 [node name="Actionable" parent="barrel/Actionable" unique_id=894160206 instance=ExtResource("4_kdryc")]
 
 [node name="Node2D" parent="barrel" unique_id=1795662721 instance=ExtResource("25_0pvt5")]
-position = Vector2(-511, -1508)
+position = Vector2(-507, -1540)
 
 [node name="Actionable2" parent="." unique_id=1229651375 instance=ExtResource("4_kdryc")]
 visible = false
@@ -334,8 +342,11 @@ shape = SubResource("RectangleShape2D_nuflt")
 
 [node name="Actionable" parent="Actionable4" unique_id=1034492142 instance=ExtResource("4_kdryc")]
 
+[node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
+position = Vector2(-2723, -828)
+
 [node name="player" parent="." unique_id=867972750 instance=ExtResource("1_mlf6e")]
-position = Vector2(-12, 82)
+position = Vector2(-657, -1958)
 motion_mode = 1
 move_speed = 400.0
 
@@ -423,9 +434,6 @@ max_value = 50.0
 position = Vector2(-12, 67)
 texture = ExtResource("34_nvpg6")
 
-[node name="Node2D3" parent="." unique_id=1588427086 instance=ExtResource("25_if5p2")]
-position = Vector2(-2723, -828)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=75319310]
 visible = false
 script = ExtResource("27_glbr4")
@@ -437,39 +445,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("27_5smy7")
-
-[node name="Label3" type="Label" parent="." unique_id=1863648563]
-offset_left = -71.0
-offset_top = -279.0
-offset_right = 115.0
-offset_bottom = -230.0
-text = "To interact with objects.
-  Press SPACE or Enter or B"
-
-[node name="Label2" type="Label" parent="." unique_id=1586777675]
-offset_left = -64.0
-offset_top = -591.0
-offset_right = 92.0
-offset_bottom = -566.0
-text = "Left click to attack."
-
-[node name="Label" type="Label" parent="." unique_id=1105870277]
-offset_left = 211.0
-offset_top = 321.0
-offset_right = 470.0
-offset_bottom = 448.0
-text = "WASD to move"
-
-[node name="Label4" type="Label" parent="." unique_id=691936992]
-offset_left = -119.0
-offset_top = -1168.0
-offset_right = 135.0
-offset_bottom = -1069.0
-text = "Attacking builds up BLOOD for your
-COPRSE LUST.
-With enough blood  
-you can perform a BITE with Q."
-horizontal_alignment = 1
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="." unique_id=16333938]
 visible = false
@@ -495,6 +470,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("36_1t5pe")
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer3" unique_id=92641980]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("43_b2ix6")
+
+[node name="TextureRect3" type="TextureRect" parent="CanvasLayer3" unique_id=2005458056]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("44_uwpek")
+
+[node name="TextureRect4" type="TextureRect" parent="CanvasLayer3" unique_id=726010174]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("45_blr10")
+
+[node name="TextureRect5" type="TextureRect" parent="CanvasLayer3" unique_id=173148309]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("46_3q86u")
 
 [node name="cutscenetrigger" type="Area2D" parent="." unique_id=460508920]
 collision_layer = 0
@@ -550,5 +561,41 @@ scale = Vector2(0.3301824, 0.3301824)
 [node name="CharacterBody2D2" parent="." unique_id=1658909884 instance=ExtResource("46_s3npr")]
 position = Vector2(1031.0001, 887.99994)
 scale = Vector2(0.3301824, 0.3301824)
+
+[node name="InstructionPopup" type="CanvasLayer" parent="." unique_id=1942329907]
+process_mode = 3
+visible = false
+script = ExtResource("51_7yo80")
+
+[node name="Dimmer" type="ColorRect" parent="InstructionPopup" unique_id=1452280016]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="InstructionPopup" unique_id=1990670329]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -497.5
+offset_top = -431.0
+offset_right = 497.5
+offset_bottom = 431.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("52_c68bw")
+stretch_mode = 5
+
+[node name="CloseSound" type="AudioStreamPlayer" parent="InstructionPopup" unique_id=751920638]
+stream = ExtResource("53_5yrq5")
+bus = &"SFX"
+
+[node name="Opensound" type="AudioStreamPlayer" parent="InstructionPopup" unique_id=1332563141]
+stream = ExtResource("54_6wul5")
+bus = &"SFX"
 
 [connection signal="body_entered" from="exit" to="exit" method="_on_body_entered"]

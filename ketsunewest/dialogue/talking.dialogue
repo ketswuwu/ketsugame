@@ -25,7 +25,7 @@ else:
 ~ dash_tutorial
 set State.player_can_move = false
 Aya: I could probably squeeze through here if i DASHED.
-Aya: Maybe pressing C would be a good idea.
+Aya: Maybe pressing (SHIFT) or (A) would be a good idea.
 set State.player_can_move = true
 => END
 
@@ -230,6 +230,7 @@ elif State.garlic == "bought"
 			set Playerdata.items["Pesos"] = Playerdata.items["Pesos"] - 15
 			set State.health_potion = "bought"
 			Jun: Smart choice!
+			(To use the health potion. Press Up on the D-pad or E on your keyboard.)
 			=> shop
 		else
 			Jun: You don't have enough pesos.
@@ -247,6 +248,7 @@ else
 			set Playerdata.items["Pesos"] = Playerdata.items["Pesos"] - 15
 			set State.health_potion = "bought"
 			Jun: Smart choice!
+			(To use the health potion. Press Up on the D-pad or E on your keyboard.)
 			=> shop
 		else
 			Jun: You don't have enough pesos.

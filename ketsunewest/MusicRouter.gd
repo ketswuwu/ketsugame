@@ -1,7 +1,7 @@
 extends Node
 
 # Main/exploration music volumes
-@export var main_volume_db: float = 14.0
+@export var main_volume_db: float = -4.0
 @export var silent_db: float = -60.0
 @export var fade_in_time: float = 2.0
 @export var fade_out_time: float = 2.0

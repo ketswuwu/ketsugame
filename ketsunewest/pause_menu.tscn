@@ -33,13 +33,31 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3xb4"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwcfo"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdmo1"]
 bg_color = Color(0.827451, 0.29803923, 0.28627452, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05uyy"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p81d2"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q2yj1"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nc7s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a32ks"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxa3g"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8sti"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=325811125 groups=["pause_menu_ui"]]
@@ -80,14 +98,20 @@ sprite_frames = SubResource("SpriteFrames_p81d2")
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxFlat_d3xb4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nwcfo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hdmo1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_05uyy")
+theme_override_styles/focus = SubResource("StyleBoxFlat_p81d2")
 text = "Resume"
 
 [node name="ExitButton" type="Button" parent="Panel/VBoxContainer" unique_id=412551742]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxFlat_q2yj1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2nc7s")
 theme_override_styles/hover = SubResource("StyleBoxFlat_a32ks")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mxa3g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_e8sti")
 text = "Exit"
 
 [connection signal="pressed" from="Panel/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

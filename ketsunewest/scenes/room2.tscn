@@ -3,8 +3,10 @@
 [ext_resource type="Script" uid="uid://bsetb1ie1x5d2" path="res://scenes/room_2.gd" id="1_d3uvb"]
 [ext_resource type="Texture2D" uid="uid://jcup44ax7015" path="res://tiles/map/room2.png" id="1_klc7l"]
 [ext_resource type="PackedScene" uid="uid://dt25rk7gid8tt" path="res://scenes/enemy.tscn" id="2_dbehi"]
+[ext_resource type="Texture2D" uid="uid://hxxmh237ttd" path="res://sprites/ui/instruction2.png" id="3_7xh3p"]
 [ext_resource type="PackedScene" uid="uid://c65x1js4ybh4" path="res://scenes/door.tscn" id="3_s5pwh"]
 [ext_resource type="Resource" uid="uid://b2jnk0qqglch1" path="res://dialogue/encounter.dialogue" id="3_yfplu"]
+[ext_resource type="Texture2D" uid="uid://kb6ye7ciu6hl" path="res://sprites/ui/instruction3.png" id="4_2robf"]
 [ext_resource type="AudioStream" uid="uid://b38lsn7xnswvv" path="res://audio/Hollow Knight OST - Waterways (Action).mp3" id="6_duage"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d3uvb"]
@@ -56,6 +58,8 @@ size = Vector2(63.5, 280)
 position = Vector2(-873, -528)
 script = ExtResource("1_d3uvb")
 enemy_scene = ExtResource("2_dbehi")
+enter_room_instruction = ExtResource("3_7xh3p")
+wave1_instruction = ExtResource("4_2robf")
 finish_dialogue = ExtResource("3_yfplu")
 finish_dialogue_start = "EndTutorial"
 

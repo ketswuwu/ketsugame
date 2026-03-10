@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bagj2kj2x5vnq"
+path="res://.godot/imported/MH - Menu Click 2 (MH3U).mp3-9d1de53920ed720afc81d5336c2ba191.mp3str"
+
+[deps]
+
+source_file="res://audio/MH - Menu Click 2 (MH3U).mp3"
+dest_files=["res://.godot/imported/MH - Menu Click 2 (MH3U).mp3-9d1de53920ed720afc81d5336c2ba191.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
